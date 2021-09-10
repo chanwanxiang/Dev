@@ -1,0 +1,10 @@
+2021-03-16 17:47:07,917-8-logging日志.py[lineno:23]-DEBUG-debug info
+2021-03-16 17:47:07,917-8-logging日志.py[lineno:24]-INFO-info info
+2021-03-16 17:47:07,918-8-logging日志.py[lineno:25]-WARNING-warning info
+2021-03-16 17:47:07,918-8-logging日志.py[lineno:26]-ERROR-error info
+2021-03-16 17:47:07,918-8-logging日志.py[lineno:27]-CRITICAL-critical info
+2021-03-16 17:53:07,978-8-logging日志.py[lineno:23]-DEBUG-debug info
+2021-03-16 17:53:07,978-8-logging日志.py[lineno:24]-INFO-info info
+2021-03-16 17:53:07,978-8-logging日志.py[lineno:25]-WARNING-warning info
+2021-03-16 17:53:07,978-8-logging日志.py[lineno:26]-ERROR-error info
+2021-03-16 17:53:07,978-8-logging日志.py[lineno:27]-CRITICAL-critical info

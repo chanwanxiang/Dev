@@ -1,0 +1,64 @@
+<!-- ##表单提交
+
+1. 表单属性设置
+<form>标签表示表单标签,定义整体表单区域
+    action属性 设置表单数据提交地址
+    method属性 设置表单提交方式,一般有'GET'方式和'POST'方式,不区分大小写
+
+2. 表单元素属性设置
+    name属性 设置表单元素名称,该名称是提交数据时的参数名
+    value属性 设置表单元素的值,该值是提交数据时参数名所对应的值
+
+3. 小结
+    表单标签的作用就是课可以把用户输入数据一起提交到web服务器
+    表单属性设置
+        action:设置表单数据提交地址
+        method:表单提交的方式,提交方式有GET和POST
+    表单元素属性设置
+        name:表单元素名称,用于作为提交表单数据时的参数名
+        value:表单元素的值,用于作为提交表单数据是参数名所对应的值
+
+-->
+
+<!-- 实例代码 -->
+
+<form action="http://www.baidu.com" method="GET">
+    <p>
+        <label>NAME:</label><input type="text">
+    </p>
+    <p>
+        <label>PASSWORD:</label><input type="password">
+    </p>
+    <p>
+        <label>SEX:</label>
+        <input type="radio"> male
+        <input type="radio"> female
+    </p>
+    <p>
+        <label>HABIT:</label>
+            <input type="checkbox"> sing
+            <input type="checkbox"> dance
+            <input type="checkbox"> swim
+    </p>
+    <p>
+        <label>PHOTO:</label>
+        <input type="file">
+    </p>
+    <p>
+        <label>PERSON DESCRIPTION:</label>
+        <textarea></textarea>
+    </p>
+    <p>
+        <label>PROVINCE:</label>>
+        <select>
+            <option>BEIJING</option>
+            <option>SHAGNHAI</option>
+            <option>GUANGZHOU</option>
+            <option>SHENZHEN</option>
+        </select>
+    </p>
+    <p>
+        <input type="submit" value="SUBMIT">
+        <input type="reset" value="RESET">
+    </p>   
+</form>

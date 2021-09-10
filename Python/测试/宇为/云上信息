@@ -1,0 +1,57 @@
+ACCOUNTINFO
+    赵云静  18685443157     业务员
+    张江弘  18166764653     调查员
+    杨兰依  18608508857     审核员
+    陶俊杰  13984940855     勘验审批
+    帅剑锋  17708514146     勘验人员
+
+    车肖    13233683600     业务员 331
+    李涵    15285117545     调查员 339 
+    罗燕    13595383585     审核员 344
+
+    夏雨宇  18008500508     审核员 28
+    张忠益  15329229399     调查员 29
+    刘天利  17585959936     业务员 30
+
+    Psw    ab124578* | ab*124578
+
+订单修改订单为“征信通过”状态涉及需要修改的表和字段有
+    rm_guizhou_icbc_v3_test测试环境数据库
+        rm_order_info订单信息表
+            order_number    字段查询修改订单
+            order_status    字段 (1,3)状态改成（5）状态
+            investigate_id  字段写入18调查员张江弘
+            approve_id      字段写入19审核员杨兰依
+            credit_result   字段写入“征信查询通过”
+            order_no        字段可以按之前的订单复制一个然后更改后几位数字,不一致即可(ICBC20200441163602123002)
+        rm_client_info客户信息表
+            credit_message  字段 填入“风险预筛查通过，blaze策略0-建议通过”
+            credit_result   填入 0
+
+订单修改订单为`开卡成功`状态涉及需要修改的表和字段有
+    rm_guizhou_icbc_v3_test测试环境数据库
+            rm_order_info订单信息表
+            order_number    字段查询修改订单
+            sp_companyid    240304150327(渠道公司id)
+            order_status    8
+            card_result     放款成功
+            inspection_id   1241
+            inspection_approval_id  172
+
+汽车分期 {
+    是否电子签: 是
+    业务模式: 组合
+    业务品种编号: 4600002
+}
+家装分期 {
+    是否电子签: 是
+    业务模式: 保证
+    业务品种编号: 简装
+}
+
+SSH连接
+    测试环境日志信息地址
+        cd /home/songyangyang/rm-guizhou-icbc-v3-test/logs/service/service.log
+
+
+调查员

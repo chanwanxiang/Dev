@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style type="text/css">
+    p{
+        text-align: center;
+    }
+</style>
+
+<body>
+    <p>{{ username }}</p>
+    <p>年龄{{ age }}</p>
+    <p>我的朋友{{ friends }} 女朋友是{{ friends.2 }}</p>
+    <p>
+        {% if age > 10 %}
+        大于10岁
+        {% else %}
+        小于等于10岁
+        {% endif %}
+    </p>
+    <!-- 过滤器语法 变量|过滤器:参数 -->
+    <!-- django自带模板 -->
+    {# <p>mybirthday {{ birthday|date:'Y-m-d'}}</p> #}
+    <!-- jinja2模板 -->
+    <p>mybirthday {{ date(birthday,'Y-m-d') }}</p>
+    <!-- 安全执行脚本 -->
+    {# <p>mydesc{{ desc|safe }}</p> #}
+    <!-- 默认值 -->
+    {# <p>我没有定义的变量{{ abc|default:'abc'}} #}
+    <ul>
+        {% for item in friends%}
+            {# <li>{{ forloop.counter }}{{ item }}</li> #}
+            <li>{{ loop.index }}{{ item }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

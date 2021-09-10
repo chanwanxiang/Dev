@@ -1,0 +1,510 @@
+一、交互式环境与print输出
+1、print：打印/输出
+2、coding：编码
+3、syntax：语法
+4、error：错误
+5、invalid：无效
+6、identifier：名称/标识符
+7、character ：字符
+
+二、字符串的操作
+1、user：用户
+2、name：姓名/名称
+3、attribute：字段/属性
+4、value：值
+
+5、key：键
+
+三、重复/转换/替换/原始字符串
+1、upper：上面
+2、lower：下面
+3、capitalize：用大写字母写或印刷
+4、title：标题
+5、replace：替换
+6、old：旧的
+7、new：新的
+8、count：计数
+9、swap：互换
+10、case：情形
+11、path：路径
+12、new：新的\新建
+13、project：项目
+14、test：测试
+15、file：文件
+16、data：数据
+
+四、去除/查询/计数
+1、strip：去除
+2、index：索引
+3、find：查找
+4、count：计数
+5、start：开始
+6、end：结束
+7、chars：字符
+8、sub：附属
+
+五、获取输入/格式化
+1、input：输入
+2、prompt：提示
+3、ID：身份证
+4、format：格式化
+5、args（argument）：参数
+6、kwargs：关键字参数
+7、year：年
+8、month：月
+9、day：日
+
+六、元组
+1、tuple：元组
+2、max：最大
+3、min：最小
+4、iterable：可迭代
+5、key：关键字
+6、function：方法/函数
+7、stop：停止
+8、object：对象
+
+七、列表
+1、list：列表
+2、reverse：反向
+3、true：真
+4、false：假
+5、append：附加
+6、extend：扩展
+7、insert：插入
+8、pop：取出
+9、remove：移除
+10、del（delete）：删除
+11、clear：清除
+12、sort：排序
+
+八、集合
+1、set：集合/设置
+2、add：添加
+3、update：更新
+4、discard：丢弃
+5、intersection：相交
+6、union：联合
+7、difference：差数
+8、symmetric：对称
+9、in：在…里面
+10、not：不/不是
+11、disjoint：不相交
+12、subset：子集
+13、superset：父集/超集
+14、copy：复制
+
+九、字典
+1、dict：字典
+2、key：键/关键字
+3、value：值
+4、item：项
+5、mapping：映射
+6、seq（sequence）：序列
+7、from：从/来自
+8、get：获取
+9、default：默认
+10、none：没有
+11、arg：可变元素
+12、kwargs（keyword args）：可变关键字元素
+
+十、循环
+
+1、for…in…循环的使用
+2、while…循环的使用
+3、range：范围
+4、sep(separate)：分隔
+5、flush：冲刷
+6、step：步长
+7、continue：继续
+8、break：突破/跳出
+
+十一、条件/跳出与结束循环
+
+ 1、if：如果
+ 2、else：否则
+
+十二、运算符与随机数
+
+1、module：模块
+2、sys(system)：系统
+3、path：路径
+4、import：导入
+5、from：从…
+
+
+
+十三、定义函数与设定参数
+
+1、birthday：出生日期
+2、year：年份
+3、month：月份
+4、day：日期
+5、type：类型
+6、error：错误
+7、missing：丢失
+8、required：必须
+9、positional：位置
+10、unsupported：不支持
+
+十四、设定收集参数
+
+1、create：创建
+2、info：信息
+3、age：年龄
+4、height：高度
+5、width：宽度
+6、weight：重量
+7、splicing：拼接
+8、params：参数
+9、volume：体积
+11、operand：操作数
+
+十五、嵌套函数/作用域/闭包
+
+1、inside：内部
+2、outside：外部
+3、radius：半径
+4、perimeter：周长
+5、case：情形
+6、synthesis：合成
+7、execute：执行
+
+十六、递归函数
+
+
+1、recursion：递归
+2、Infinite：无穷
+3、maximum：最大值
+4、depth：深度
+5、exceeded：超过
+6、factorial：阶乘
+7、search：查询
+8、power：幂
+9、lower：下方
+10、upper：上方
+11、middle：中间
+12、assert/assertion：异常
+
+十七、列表推导式/lambda表达式
+
+1、square：平方
+2、even：偶数
+3、comprehension：理解
+4、lambda：希腊字母λ的英文名称，大名鼎鼎的游戏半条命里面的logo就是这个。
+
+十八、列表推导式/lambda表达式
+
+1、regular：规则
+2、expression： 表达式
+3、group：组
+4、match：匹配
+5、span：跨度
+6、ignore case：忽略 大小写
+7、multi line：多 行
+8、dot all：点 全部
+9、unicode：万国码
+10、verbose：累赘
+11、pos/position：位置
+
+
+
+1.python 蟒蛇
+
+2. downlaods 下载
+
+3. install 安装
+
+4. customize 自定义
+
+5. path 环境变量：路径
+
+6. optional 可选的
+
+7. feature 特性特点
+
+8. documentation 文档
+
+9. associate 关联
+
+10. shortcuts 快捷方式
+
+11. setup 安装
+
+12. successful 成功
+
+13. library 库
+
+14. scripts 脚本
+
+15. print 打印
+
+16. hello world 你好，世界
+
+17. commond 命令
+
+18. power 能量
+
+19. shell 壳
+
+20. exit 退出
+
+21. integer int 数字
+
+22. string str 字符串
+
+23. define 定义
+
+24. delete del 删除
+
+25. rencent 最近的（时间方面）
+
+26. last 最后的
+
+27. call 调用
+
+28. tools 工具
+
+29. professional 专业的
+
+30. Development 开发
+
+31. developer 开发者
+
+32. community 社区
+
+33. setup 安装
+
+34. guide 想到
+
+35. installation 安装
+
+36. recommend 建议
+
+37. application 应用
+
+38. possible 可能
+
+39. computer 电脑
+
+40. next 下一步
+
+41. break 中断
+
+42. length len() 长度
+
+43. parameter param 参数
+
+44. return 返回
+
+45. define 定义 def
+
+46. function 功能，函数
+
+47. require 必须
+
+48. miss 丢失
+
+49. object 对象、事物
+
+50. callable 可调用
+
+51. default 默认的
+
+52. follow 跟在...后面
+
+53. global 全球，全局的
+
+54. slice 切
+
+55. remove 移除
+
+56. list 列表
+
+57. dict 字典
+
+58. key 键
+
+59. value 值
+
+60. support 支持，具备..功能
+
+61. assignment 分配，任务，工作
+
+62. set 集合
+
+63. operator 操作符
+
+64. union 联合， 并
+
+65. initial 初始化
+
+66. instance 实例
+
+67. class 类
+
+68. attribute attr 属性
+
+69. self 自己
+
+70. property 特性、属性
+
+71. reference ref 引用
+
+72. static 静态的
+
+73. object 对象
+
+74. animal 动物
+
+75. subclass 子类
+
+76. inherit 继承
+
+77. override 重写
+
+78. salary 薪水
+
+79. offer 入职通知书
+
+80. directory dir 目录
+
+81. redundant 小括号
+
+82. blank 空白的
+
+83. line 行
+
+84. open 打开
+
+85. year 年
+
+86. month 分钟
+
+87. day 天 日
+
+88. hour 小时
+
+89. minute 分钟
+
+90. second 秒
+
+91. virtual 虚拟的
+
+92. environment 环境
+
+93. charset 字符集
+
+94. title 题目
+
+95. head 头
+
+96. body 身体
+
+97. paragraph 段落
+
+98. style 样式
+
+99. align 对齐
+
+100. table 桌子 表格
+
+101. row 行
+
+102. col 列
+
+103. span 延伸
+
+104. data 数据
+
+105. space 空白
+
+106. item 项
+
+107. input 输入
+
+108. action 动作
+
+109. submit 提交
+
+110. reset 重置
+
+111. readonly 只读
+
+112. required 必须 必填
+
+113. select 选择
+
+114. option 选项
+
+115. area 区域
+
+116. form 表单
+
+117. new 新建
+
+118. directory 文件夹
+
+119. file 文件
+
+120. copy 复制
+
+121. cut 剪切
+
+122. paste 粘贴
+
+123. refactor 修改
+
+124. rename 重命名
+
+125. move 移动
+
+126. font 字体
+
+127. setting 设置
+
+128. appearance 外观
+
+129. editor 编辑器
+
+130. external 外部的
+
+131. library 库
+
+132. favorites 喜爱，收藏夹
+
+133. structure 结构
+
+134. view 视图，浏览
+
+135. edit 编辑
+
+136. navigate 导航
+
+137. code 代码
+
+138. refactor 更改
+
+139. run 跑，运行
+
+140. tools 工具
+
+141. windows 窗口 布局
+
+142. help 帮助
+
+143. indent 缩进
+
+144. range 范围
+
+145. radius 半径范围，半径
+
+146. Drop downs 下拉菜单
+
+147. menu item 菜单项；子菜单
+
+148. alter 改变；修改
+
+149. loading 加载，评论
+
+150. initial 初始化
