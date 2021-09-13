@@ -5634,7 +5634,7 @@ DROP DATABASE IF EXISTS books;
 
 ```sql
 # 1. 表的创建
-CREATE TABLE [IF NOT EXIST]表名(
+CREATE TABLE [IF NOT EXISTS]表名(
 	列名 列的类型[(长度) 约束],
 	列名 列的类型[(长度) 约束],
 	列名 列的类型[(长度) 约束]

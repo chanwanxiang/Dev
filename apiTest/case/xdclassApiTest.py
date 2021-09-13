@@ -2,12 +2,13 @@ import os
 import sys
 import json
 import datetime
+
+# 追加导包路径
+sys.path.insert(0, r'.\.\apiTest')
+
 import openpyxl
 from dbUtil.dbUtil import mysqlDB
 from util.requestUtil import RequestUtil
-
-sys.path.append(
-    r'D:\Coding-Always\Read-Search-Ask\【1】Python\测试\小滴课堂\Python接口自动化\apiTest')
 
 
 filePath = r'D:\Coding-Always\Read-Search-Ask\【1】Python\测试\小滴课堂\Python接口自动化\apiTest\测试用例.xlsx'
@@ -16,46 +17,46 @@ filePath = r'D:\Coding-Always\Read-Search-Ask\【1】Python\测试\小滴课堂\
 class xsclassTestCase:
 
     # 根据项目加载全部测试用例 execl
-    def loadallcasebyApp(self, app):
-        print('loadallcasebyApp')
-        wb = openpyxl.load_workbook(filePath)
-        sheet = wb.worksheets[0]
-        allcase = [x for x in list(sheet.values) if x[1] == app]
+    # def loadallcasebyApp(self, app):
+    #     print('loadallcasebyApp')
+    #     wb = openpyxl.load_workbook(filePath)
+    #     sheet = wb.worksheets[0]
+    #     allcase = [x for x in list(sheet.values) if x[1] == app]
 
-        listN = []
-        dictN = {}
+    #     listN = []
+    #     dictN = {}
 
-        for x in allcase:
-            listdict = list(zip(list(sheet.values)[0], x))
-            for x in listdict:
-                dictN[x[0]] = x[1]
-            listN.append(dictN)
-            dictN = {}
+    #     for x in allcase:
+    #         listdict = list(zip(list(sheet.values)[0], x))
+    #         for x in listdict:
+    #             dictN[x[0]] = x[1]
+    #         listN.append(dictN)
+    #         dictN = {}
 
-        return listN
+    #     return listN
 
     # 根据项目加载全部测试用例 mysql
-    # def loadallcasebyApp(self,app):
-    #     print('loadallcasebyApp')
-    #     mydb = mysqlDB()
-    #     allcase = mydb.query("select * from `case` where app='%s'"%app)
+    def loadallcasebyApp(self,app):
+        print('loadallcasebyApp')
+        mydb = mysqlDB()
+        allcase = mydb.query("select * from `case` where app='%s'"%app)
 
-    #     return allcase
+        return allcase
 
-    # 根据id找测试用例 execl
-    def findcasebyid(self, caseid):
-        print('findcasebyid')
-        wb = openpyxl.load_workbook(filePath)
-        sheet = wb.worksheets[0]
-        singlecase = [x for x in list(sheet.values) if x[0] == caseid]
+    #根据id找测试用例 execl
+    # def findcasebyid(self, caseid):
+    #     print('findcasebyid')
+    #     wb = openpyxl.load_workbook(filePath)
+    #     sheet = wb.worksheets[0]
+    #     singlecase = [x for x in list(sheet.values) if x[0] == caseid]
 
-        dictN = {}
-        listdict = list(zip(list(sheet.values)[0], singlecase[0]))
-        # print(listdict)
-        for x in listdict:
-            dictN[x[0]] = x[1]
+    #     dictN = {}
+    #     listdict = list(zip(list(sheet.values)[0], singlecase[0]))
+    #     # print(listdict)
+    #     for x in listdict:
+    #         dictN[x[0]] = x[1]
 
-        return dictN
+    #     return dictN
 
     # 根据id找测试用例 mysql
     def findcasebyid(self, id):
@@ -248,5 +249,6 @@ if __name__ == "__main__":
     # print(xs.updataResulebyCaseid('12341\12\12\12',False,'1234',10))
     # print(xs.findcasebyid(6))
     # case6 = {'id': 6, 'app': '小滴课堂', 'module': 'user', 'title': '用户个人信息', 'method': 'get', 'url': '/pub/api/v1/web/user_info', 'run': 'yes', 'headers': '{"token":"$token$"}', 'pre_case_id': 1, 'pre_fields': '[{"field":"token","scope":"header"}]', 'request_body': '{}', 'expect_result': None, 'assert_type': 'data_json', 'pass': 'True', 'msg': '模块:user,标题:用户个人信息,断言类型是:data_json,响应msg:None', 'update_time': datetime.datetime(2020, 7, 1, 18, 53, 29), 'response': ''}
-    xs.runCase(case6,'https://api.xdclass.net')
-    # xs.runAllCase('小滴课堂')
+    # xs.runCase(case6,'https://api.xdclass.net')
+    xs.runAllCase('小滴课堂')
+    print(sys.path)
