@@ -7307,14 +7307,7 @@ def fastSort(nums, l, r):
 
 + 双重for循环暴力求解 O(n**2)
 
-```python
-def twoSum(nums, target):
-        for i in range(len(nums)-1):
-            for j in range(i+1, len(nums)):
-                if nums[i] + nums[j] == target:
-                    return [i, j]
-                
-```
+![twoSum](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/twoSum.png)
 
 + for...if... O(n**2)
 
