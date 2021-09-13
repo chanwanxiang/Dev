@@ -10,48 +10,112 @@ import openpyxl
 from dbUtil.dbUtil import mysqlDB
 from util.requestUtil import RequestUtil
 
+filePath = r'.\.\apiTest\测试用例.xlsx'
+
 class xsclassTestCase:
 
-    # 根据项目加载全部测试用例 mysql
-    def loadallcasebyApp(self,app):
+    # 根据项目加载全部测试用例 execl
+    def loadallcasebyApp(self, app):
         print('loadallcasebyApp')
-        mydb = mysqlDB()
-        allcase = mydb.query("select * from `case` where app='%s'"%app)
+        wb = openpyxl.load_workbook(filePath)
+        sheet = wb.worksheets[0]
+        allcase = [x for x in list(sheet.values) if x[1] == app]
 
-        return allcase
+        listN = []
+        dictN = {}
+
+        for x in allcase:
+            listdict = list(zip(list(sheet.values)[0], x))
+            for x in listdict:
+                dictN[x[0]] = x[1]
+            listN.append(dictN)
+            dictN = {}
+
+        return listN
+
+    # 根据项目加载全部测试用例 mysql
+    # def loadallcasebyApp(self,app):
+    #     print('loadallcasebyApp')
+    #     mydb = mysqlDB()
+    #     allcase = mydb.query("select * from `case` where app='%s'"%app)
+
+    #     return allcase
+
+    #根据id找测试用例 execl
+    def findcasebyid(self, caseid):
+        print('findcasebyid')
+        wb = openpyxl.load_workbook(filePath)
+        sheet = wb.worksheets[0]
+        singlecase = [x for x in list(sheet.values) if x[0] == caseid]
+
+        dictN = {}
+        listdict = list(zip(list(sheet.values)[0], singlecase[0]))
+        # print(listdict)
+        for x in listdict:
+            dictN[x[0]] = x[1]
+
+        return dictN
 
     # 根据id找测试用例 mysql
-    def findcasebyid(self, id):
-        print('findcasebyid')
-        mydb = mysqlDB()
-        sql = "select * from `case` where id=%d" % id
-        onecase = mydb.query(sql, state='one')
-        return onecase
+    # def findcasebyid(self, id):
+    #     print('findcasebyid')
+    #     mydb = mysqlDB()
+    #     sql = "select * from `case` where id=%d" % id
+    #     onecase = mydb.query(sql, state='one')
+    #     return onecase
+
+    # 根据项目和key加载配置 execl
+    def loadconfigbyAppandKey(self,app,key):
+        print('loadconfigbyAppandKey')
+        wb = openpyxl.load_workbook(filePath)
+        sheet = wb.worksheets[1]
+        singleconfig = [x[3] for x in list(sheet.values) if x[1] == app and x[2] == key][0]
+        return singleconfig
 
     # 根据项目和key加载配置 mysql
-    def loadconfigbyAppandKey(self, app, key):
-        print('loadconfigbyAppandKey')
-        mydb = mysqlDB()
-        sql = "select * from `config` where app='{0}' and dict_key='{1}'".format(
-            app, key)
-        result = mydb.query(sql, state='one')
-        return result['dict_value']
+    # def loadconfigbyAppandKey(self, app, key):
+    #     print('loadconfigbyAppandKey')
+    #     mydb = mysqlDB()
+    #     sql = "select * from `config` where app='{0}' and dict_key='{1}'".format(
+    #         app, key)
+    #     result = mydb.query(sql, state='one')
+    #     return result['dict_value']
 
-    # 根据测试用例id更新响应内容和测试内容 mysql
-    def updataResulebyCaseid(self, response, isPass, msg, caseid):
+    # 根据测试用例id更新响应内容和测试内容 execl
+    def updataResulebyCaseid(self,response,isPass,msg,caseid):
         print('updataResulebyCaseid')
+        wb = openpyxl.load_workbook(filePath)
+        sheet = wb.worksheets[0]
+        colu = sheet['A']
+        for x in colu:
+            if x.value == caseid:
+                rows = x.row
         currenttime = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
         if isPass:
-            sql = "update `case` set response='{0}',pass='{1}',msg='{2}',update_time='{3}' where id={4}".format(
-                '', isPass, msg, currenttime, caseid)
+            sheet.cell(rows,14,isPass)
+            sheet.cell(rows,15,msg)
+            sheet.cell(rows,16,currenttime)
+            sheet.cell(rows,17,str(response))
         else:
-            sql = "update `case` set response=\"{0}\",pass='{1}',msg='{2}',update_time='{3}' where id={4}".format(
-                str(response), isPass, msg, currenttime, caseid)
+            sheet.cell(rows,14,isPass)
 
-        print(sql)
-        mydb = mysqlDB()
-        rows = mydb.execute(sql)
-        return rows
+        wb.save('xs 更新后的数据.xlsx')
+
+    # 根据测试用例id更新响应内容和测试内容 mysql
+    # def updataResulebyCaseid(self, response, isPass, msg, caseid):
+    #     print('updataResulebyCaseid')
+    #     currenttime = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
+    #     if isPass:
+    #         sql = "update `case` set response='{0}',pass='{1}',msg='{2}',update_time='{3}' where id={4}".format(
+    #             '', isPass, msg, currenttime, caseid)
+    #     else:
+    #         sql = "update `case` set response=\"{0}\",pass='{1}',msg='{2}',update_time='{3}' where id={4}".format(
+    #             str(response), isPass, msg, currenttime, caseid)
+
+    #     print(sql)
+    #     mydb = mysqlDB()
+    #     rows = mydb.execute(sql)
+    #     return rows
 
     # 执行全部用例
     def runAllCase(self, app):
@@ -185,3 +249,4 @@ if __name__ == "__main__":
     # case6 = {'id': 6, 'app': '小滴课堂', 'module': 'user', 'title': '用户个人信息', 'method': 'get', 'url': '/pub/api/v1/web/user_info', 'run': 'yes', 'headers': '{"token":"$token$"}', 'pre_case_id': 1, 'pre_fields': '[{"field":"token","scope":"header"}]', 'request_body': '{}', 'expect_result': None, 'assert_type': 'data_json', 'pass': 'True', 'msg': '模块:user,标题:用户个人信息,断言类型是:data_json,响应msg:None', 'update_time': datetime.datetime(2020, 7, 1, 18, 53, 29), 'response': ''}
     # xs.runCase(case6,'https://api.xdclass.net')
     xs.runAllCase('小滴课堂')
+    print(sys.path)

@@ -1,5 +1,3 @@
-vtmsaas.yuuwei.com/qr/a?key=sdfj3185fdftg53&preOrderNumber=20210722135510562001&domain=https://signtest.yuuwei.com
-
 import pymysql
 
 conn = pymysql.connect("127.0.0.1", "root", "xdclass.net", "xd_api_test_demo")
