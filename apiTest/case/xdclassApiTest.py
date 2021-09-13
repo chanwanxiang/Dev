@@ -11,7 +11,7 @@ from dbUtil.dbUtil import mysqlDB
 from util.requestUtil import RequestUtil
 
 
-filePath = r'D:\Coding-Always\Read-Search-Ask\【1】Python\测试\小滴课堂\Python接口自动化\apiTest\测试用例.xlsx'
+filePath = r'.\.\apiTest'
 
 
 class xsclassTestCase:
