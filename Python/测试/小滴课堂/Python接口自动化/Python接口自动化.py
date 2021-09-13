@@ -992,38 +992,6 @@
 # 如果连接不上数据库,排查点:是否关闭了防火墙、用户名密码是否正确、mysql是否开启远程连接
 # 数据库设计 - 大家如果学测试开发工程师的课程,可以自行增加功能,自研自动测试平台(多应用-多用户-用例执行记录等功能)
 
-# CREATE TABLE `case` (
-#   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
-#   `app` varchar(128) DEFAULT NULL COMMENT '业务应用',
-#   `module` varchar(128) DEFAULT NULL COMMENT '模块',
-#   `title` varchar(128) DEFAULT NULL COMMENT '用例名称',
-#   `method` varchar(128) DEFAULT NULL COMMENT 'Http提交方法',
-#   `url` varchar(128) DEFAULT NULL COMMENT '接口',
-#   `run` varchar(32) DEFAULT NULL COMMENT '是否运行 yes/no',
-#   `headers` varchar(128) DEFAULT '{}' COMMENT '请求头',
-#   `pre_case_id` int(11) DEFAULT '-1' COMMENT '是否有前置用例id',
-#   `pre_fields` varchar(128) DEFAULT '[]' COMMENT '前置的字段, 获取请求结果的哪个字段,用于当前case的header还是body,双&name& 替代值',
-#   `request_body` varchar(128) DEFAULT '{}' COMMENT '请求内容,$XX用于替换',
-#   `except_result` varchar(1024) DEFAULT NULL COMMENT '预期结果',
-#   `assert_type` varchar(64) DEFAULT NULL COMMENT '断言类型, 判断状态码、data内容或数组长度',
-#   `pass` varchar(64) DEFAULT NULL COMMENT '是否通过,yes, no',
-#   `msg` varchar(128) DEFAULT NULL COMMENT '测试用例额外描述新',
-#   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-#   `response` text COMMENT '实际结果',
-#   PRIMARY KEY (`id`)
-# ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
-# ​
-# ​
-# ​
-# CREATE TABLE `config` (
-#   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-#   `app` varchar(128) DEFAULT NULL COMMENT '所属app',
-#   `dict_key` varchar(64) DEFAULT NULL COMMENT '字典key',
-#   `dict_value` varchar(256) DEFAULT NULL COMMENT '字典值',
-#   PRIMARY KEY (`id`)
-# ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
- 
-
 # 字段介绍:
 
 # # 依赖上个用例的 token字段,作用到当前用例的header, 根据业务情况自行开发,常见的又 header、body、url_param 3个作用域
