@@ -6257,7 +6257,7 @@ SELECT d.* mx
 
 ###### 1)编程境界
 
-程序 = 数据结构
+程序 = 数据结构 + 算法
 
 写程序 - 高效地写程序 - 写高效的程序 - 设计算法 - 设计有用算法
 
@@ -7089,6 +7089,8 @@ def search(nums, target):
 
 #### 11.8 排序
 
+![image-20210914175103303](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20210914175103303.png)
+
 ##### 11.8.1 冒泡排序
 
 ![在这里插入图片描述](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/20200810193906338.gif)
@@ -7276,7 +7278,7 @@ print(fastSort([5, 4, 3, 2, 1]))
 ```
 
 ```python
-def partiton(nums, l, r):
+def partition(nums, l, r):
     i, j = l, r
     pivot = nums[l]
     while i != j:
