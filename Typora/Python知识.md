@@ -6985,11 +6985,13 @@ class Stack(object):
 
 线性查找适合无序序列查找元素
 
+![image-20210915113447182](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20210915113447182.png)
+
 ```python
 # 算法步骤
 #   线性查找指按一定的顺序检查数组中每一个元素,直到找到所要寻找的特定值为止
 
-def steepSearch(sequ, item):
+def stepSearch(sequ, item):
     for i in range(len(sequ)):
         if sequ[i] == item:
             return f'元素在{i}号位'
