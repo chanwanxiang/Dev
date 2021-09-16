@@ -6337,6 +6337,14 @@ SELECT d.* mx
 
 ==算法时间复杂度取决于最深循环内包含基本操作的语句的重复执行次数,称语句重复执行次数为语句的频度==
 
+时间复杂度是用来估计算法运行时间的一个单位
+
+如何简单快速判断算法时间复杂度：
+
+1. 确定问题规模n
+2. 循环减半过程 logn
+3. k层关于n的循环n**k
+
 5)算法好坏评价标准
 
 + 时间复杂度
@@ -7090,6 +7098,8 @@ def search(nums, target):
 ```
 
 #### 11.8 排序
+
+![image-20210916170153196](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20210916170153196.png)
 
 ![image-20210914175103303](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20210914175103303.png)
 
