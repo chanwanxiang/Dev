@@ -1,3 +1,4 @@
+import json
 import pprint
 import requests
 # from util import
@@ -6,9 +7,6 @@ import requests
 
 
 class RequestUtil:
-    def __init__(self):
-        pass
-
     def request(self, url, method, headers=None, params=None, contentType=None):
         try:
             if method == 'get':
@@ -16,13 +14,13 @@ class RequestUtil:
                     url=url, params=params, headers=headers).json()
                 return result
             elif method == 'post':
-                if contentType == 'application/json':
+                if contentType == 'data':
                     result = requests.post(
-                        url=url, json=params, headers=headers).json()
+                        url=url, data=params, headers=headers).json()
                     return result
                 else:
                     result = requests.post(
-                        url=url, data=params, headers=headers).json()
+                        url=url, json=params, headers=headers).json()
                     return result
             else:
                 print('HTTP MEATHOD NOT ALLOWED')

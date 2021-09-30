@@ -1,3 +1,6 @@
+from util.requestUtil import RequestUtil
+from dbUtil.dbUtil import mysqlDB
+import openpyxl
 import os
 import sys
 import json
@@ -6,11 +9,9 @@ import datetime
 # 追加导包路径
 sys.path.insert(0, r'.\.\apiTest')
 
-import openpyxl
-from dbUtil.dbUtil import mysqlDB
-from util.requestUtil import RequestUtil
 
 filePath = r'.\.\apiTest\测试用例.xlsx'
+
 
 class xsclassTestCase:
 
@@ -41,7 +42,7 @@ class xsclassTestCase:
 
     #     return allcase
 
-    #根据id找测试用例 execl
+    # 根据id找测试用例 execl
     def findcasebyid(self, caseid):
         print('findcasebyid')
         wb = openpyxl.load_workbook(filePath)
@@ -65,11 +66,12 @@ class xsclassTestCase:
     #     return onecase
 
     # 根据项目和key加载配置 execl
-    def loadconfigbyAppandKey(self,app,key):
+    def loadconfigbyAppandKey(self, app, key):
         print('loadconfigbyAppandKey')
         wb = openpyxl.load_workbook(filePath)
         sheet = wb.worksheets[1]
-        singleconfig = [x[3] for x in list(sheet.values) if x[1] == app and x[2] == key][0]
+        singleconfig = [x[3] for x in list(
+            sheet.values) if x[1] == app and x[2] == key][0]
         return singleconfig
 
     # 根据项目和key加载配置 mysql
@@ -82,7 +84,7 @@ class xsclassTestCase:
     #     return result['dict_value']
 
     # 根据测试用例id更新响应内容和测试内容 execl
-    def updataResulebyCaseid(self,response,isPass,msg,caseid):
+    def updataResulebyCaseid(self, response, isPass, msg, caseid):
         print('updataResulebyCaseid')
         wb = openpyxl.load_workbook(filePath)
         sheet = wb.worksheets[0]
@@ -92,12 +94,12 @@ class xsclassTestCase:
                 rows = x.row
         currenttime = datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')
         if isPass:
-            sheet.cell(rows,14,isPass)
-            sheet.cell(rows,15,msg)
-            sheet.cell(rows,16,currenttime)
-            sheet.cell(rows,17,str(response))
+            sheet.cell(rows, 14, isPass)
+            sheet.cell(rows, 15, msg)
+            sheet.cell(rows, 16, currenttime)
+            sheet.cell(rows, 17, str(response))
         else:
-            sheet.cell(rows,14,isPass)
+            sheet.cell(rows, 14, isPass)
 
         wb.save('xs 更新后的数据.xlsx')
 
@@ -147,6 +149,7 @@ class xsclassTestCase:
                     print('用例id=%s,标题:%s,执行报错:%s' %
                           (case['id'], case['title'], e))
     # 执行单个用例
+
     def runCase(self, case, apiHostobj):
         print('runCase')
         headers = json.loads(case['headers'])
@@ -182,7 +185,7 @@ class xsclassTestCase:
                         if header == filedName:
                             filedValue = preResponse['data'][filedName]
                             headers[filedName] = filedValue
-                            
+
                 elif preFiled['scope'] == 'body':
                     print('替换body')
 
