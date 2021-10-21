@@ -9,6 +9,7 @@ sys.path.insert(0, r'.\.\apiTest')
 from dbUtil.dbUtil import mysqlDB
 from util.requestUtil import RequestUtil
 from util.tools import *
+from util.jarUtil import *
 
 class xsclassTestCase:
 
@@ -77,8 +78,17 @@ class xsclassTestCase:
                           (case['id'], case['title'], e))
     # 执行单个用例
     def runCase(self, case, apiHostobj):
+        rsa = RsaSign()
         headers = json.loads(case['headers'])
-        body = json.loads(case['request_body'])
+        
+        if case['app'] == '团餐机二期':
+            body = json.loads(case['request_body'])
+            if 'clientTransNo' in body['bizContent']:
+                body['bizContent']['clientTransNo'] = createOrderNum()
+            encrytedbody = rsa.encrypted(json.dumps(body))
+            body = json.loads('{"request":"' + encrytedbody + '"}')
+        else:
+            body = json.loads(case['request_body'])
         method = case['method']
         reqUrl = apiHostobj + case['url']
 
@@ -112,16 +122,14 @@ class xsclassTestCase:
                             
                 elif preFiled['scope'] == 'body':
                     print('替换body')
-
-        # 修改部分用例参数
-        if 'clientTransNo' in body['bizContent']:
-            body['bizContent']['clientTransNo'] = createOrderNum()
             
         # 发起请求
         req = RequestUtil()
         response = req.request(reqUrl, method, headers=headers, params=body)
+        if case['app'] == '团餐机二期':
+            response = json.loads(rsa.decrypted(response['response']))
         info = '模块:%s,标题:%s,响应:%s' % (
-            case['module'], case['title'], response)
+                case['module'], case['title'], response)
         print('-' * 10)
         print(info)
         return response
@@ -173,4 +181,4 @@ if __name__ == "__main__":
     # print(xs.findcasebyid(6))
     # case6 = {'id': 6, 'app': '小滴课堂', 'module': 'user', 'title': '用户个人信息', 'method': 'get', 'url': '/pub/api/v1/web/user_info', 'run': 'yes', 'headers': '{"token":"$token$"}', 'pre_case_id': 1, 'pre_fields': '[{"field":"token","scope":"header"}]', 'request_body': '{}', 'expect_result': None, 'assert_type': 'data_json', 'pass': 'True', 'msg': '模块:user,标题:用户个人信息,断言类型是:data_json,响应msg:None', 'update_time': datetime.datetime(2020, 7, 1, 18, 53, 29), 'response': ''}
     # xs.runCase(case6,'https://api.xdclass.net')
-    xs.runAllCase('团餐机')
+    xs.runAllCase('团餐机二期')
