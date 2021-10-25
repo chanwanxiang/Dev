@@ -175,10 +175,16 @@ class xsclassTestCase:
 
 if __name__ == "__main__":
     xs = xsclassTestCase()
-    # print(xs.loadallcasebyApp('小滴课堂'))
-    # print(xs.loadconfigbyAppandKey('小滴课堂','host'))
-    # print(xs.updataResulebyCaseid('12341\12\12\12',False,'1234',10))
-    # print(xs.findcasebyid(6))
-    # case6 = {'id': 6, 'app': '小滴课堂', 'module': 'user', 'title': '用户个人信息', 'method': 'get', 'url': '/pub/api/v1/web/user_info', 'run': 'yes', 'headers': '{"token":"$token$"}', 'pre_case_id': 1, 'pre_fields': '[{"field":"token","scope":"header"}]', 'request_body': '{}', 'expect_result': None, 'assert_type': 'data_json', 'pass': 'True', 'msg': '模块:user,标题:用户个人信息,断言类型是:data_json,响应msg:None', 'update_time': datetime.datetime(2020, 7, 1, 18, 53, 29), 'response': ''}
-    # xs.runCase(case6,'https://api.xdclass.net')
+    """
+    print(xs.loadallcasebyApp('小滴课堂'))
+    print(xs.loadconfigbyAppandKey('小滴课堂','host'))
+    print(xs.findcasebyid(6))
+    case6 = {'id': 6, 'app': '小滴课堂', 'module': 'user', 'title': '用户个人信息', 'method': 'get', 'url': '/pub/api/v1/web/user_info', 'run': 'yes', 'headers': '{"token":"$token$"}', 'pre_case_id': 1, 'pre_fields': '[{"field":"token","scope":"header"}]', 'request_body': '{}', 'expect_result': None, 'assert_type': 'data_json', 'pass': 'True', 'msg': '模块:user,标题:用户个人信息,断言类型是:data_json,响应msg:None', 'update_time': datetime.datetime(2020, 7, 1, 18, 53, 29), 'response': ''}
+    xs.runCase(case6,'https://api.xdclass.net')
     xs.runAllCase('团餐机二期')
+    """
+
+
+    for i in range(5, 0):
+        print(i)
+    
