@@ -173,13 +173,16 @@ os 操作系统、time 时间、random 随机、pymysql 连接数据库、thread
 
 ##### 1.5.2 赋值、浅拷贝和深拷贝的区别?
 
+浅拷贝只拷贝了顶级对象或者说父级对象
+深拷贝拷贝了所有对象，顶级对象及其嵌套对象
+
 ```python
 import copy
 a = [1, 2, 3, 4, ['a', 'b']]  #原始对象
 
 b = a  #赋值,传对象的引用,赋值引用,a和b都指向同一个对象 # TODO:引用赋值,与传值赋值区分
 c = copy.copy(a)  #对象拷贝,浅拷贝  #  浅拷贝,a和c是一个独立的对象,但他们的子对象还是指向同一对象(是引用),只拷贝顶级对象,或者说父级对象
-d = copy.deepcopy(a)  #对象拷贝,深拷贝  #  深拷贝,a和b完全拷贝了父对象及其子对象,两者是完全独立的 ,拷贝所以对象,顶级对象及其嵌套对象 # TODO: 传值赋值
+d = copy.deepcopy(a)  #对象拷贝,深拷贝  #  深拷贝,a和b完全拷贝了父对象及其子对象,两者是完全独立的 ,拷贝所有对象,顶级对象及其嵌套对象 # TODO: 传值赋值
 
 a.append(5)  #修改对象a  #a = [1, 2, 3, 4, ['a', 'b'],5]
 a[4].append('c')  #修改对象a中的['a', 'b']数组对象  #a = [1, 2, 3, 4, ['a', 'b','c'],5]
@@ -603,8 +606,6 @@ while left < right:
     righ -= 1
     
 ```
-
-
 
 ##### 1.7.5 将字符串"k:1|k1:2|k2:3|k3:4"，处理成 Python 字典：{k:1， k1:2， ... } ,字典里的 k 作为字符串处理
 
@@ -1052,7 +1053,22 @@ print(dic)
 
 ```
 
-###### 3)collections模块
+###### 3)dict.setdefault方法
+
+```python
+str = 'life is short I use python'
+
+dic = dict()
+
+for x in str:
+    dic.setdefault(x, 0)
+    dic[x] += 1
+
+print(dic)
+
+```
+
+###### 4)collections模块
 
 ```python
 from collections import Counter
@@ -1063,6 +1079,12 @@ dic = dict(Counter(str))
         
 print(dic)
 
+```
+
+```python
+from collections import defaultdict
+
+str = 'life is short I use python'
 ```
 
 ##### 1.10.5 字典由value获取key的方法
@@ -1578,6 +1600,84 @@ Python为了利用多核,支持多线程,解决多线程之间数据完整性和
 GIL会根据执行的字节码行数以及时间片释放GIL,GIL再遇到IO操作时会主动释放
 
 [GIL代码演示](file/gil.ipynb ':include : type=code')
+
+#### 2.8 Collections模块
+
+##### 2.8.1 collections模块介绍
+
+常用数据结构
+
+__all__ = ['deque', 'defaultdict', 'namedtuple', 'Counter', 'OrderedDict', 'ChainMap']
+
+##### 2.8.2 tuple功能详解
+
++ tuple不可变，iterable
+
++ 拆包
+
+  ```python
+  userinfo = ('mars', 29, 175)
+  name, *others = userinfo
+  print(name, others)
+  
+  name, age, height = userinfo
+  print(name, age, height)
+  
+  ```
+
++ tuple不可变性不是绝对的，里面的list元素可以append
+
+  ```python
+  tupl = ('mars', [1,2,3,4])
+  tupl[1].append(5)
+  print(tupl)
+  
+  ```
+
++ tuple比list好的地方
+
+  + immutable(不可变对象)的重要性
+  + 性能优化
+  + 线程安全
+  + 可以作为dict的key(可以哈希)
+  + 拆包特性
+
+##### 2.8.3 namedtuple功能详解
+
+```python
+from collections import namedtuple
+
+User = namedtuple("User", ["name", "age", "height"])
+user = User(name = "mars", age = 18, height = 175)
+print(user.name, user.age, user.height)
+
+```
+
+等于
+
+```python
+class User():
+	def __init__(self, name, age, height):
+        self.name = name
+        self.age = age
+        self.height = height
+        
+user = User('mars', 18, 175)
+pirnt(user.name, user.age, user.height)
+
+```
+
+##### 2.8.4 defaultdict功能详解
+
+```python
+from collections import defaultdict
+
+user = ['1', '2', '3', '3', '5']
+
+
+```
+
+
 
 ### 三. 设计模式
 
@@ -3996,6 +4096,20 @@ linux用户需要至少都属于一个组
   > cat a.txt | grep -n Yes (功能描述:在a.txt文件中查找Yes并显示行号)
 
 ##### 9.6.4 三剑客awk/grep/sed
+
+##### 9.6.5 Linux系统下如何查看日志
+
+查看日志命令有常用的tail、more、less、grep、cat等，各有千秋
+
+1. tail命令带参数-f logfile  默认输出10行，可以指定输出行，同时可以使用|管道grep过滤日志
+   2. more/less用于分页查找日志
+      3、cat 不建议使用，假使日志文件过于庞大，则会出现卡死
+      4、grep多与上面的命令组合使用，过滤关键字日志信息
+          -n  查询并输出关键字的信息的行号
+          -i  忽略大小写
+          -A  n：显示匹配到的字符串所在的行及其后n行，after
+      　　-B  n：显示匹配到的字符串所在的行及其前n行，before
+      　　-C  n：显示匹配到的字符串所在的行及其前后各n行，context
 
 #### 9.7 压缩解压
 
