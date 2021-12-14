@@ -1,3 +1,5 @@
+
+
 ###  一. Python基础
 
 IPython是一种基于python的交互式解释器,相较于原生python交互式环境,提供了更加强大的编辑和交互功能.
@@ -477,7 +479,47 @@ print(f2(0))  #45
   |                       |                  |
   |                       |                  |
 
++ 内置常用函数
+
+  **all(iterable) **
+
+  如果 iterable 的所有元素为真（或迭代器为空），返回True。
+
+  ```python
+  def all(iterable):
+      for element in iterable:
+          if not element:
+              return False
+      return True
   
+  ```
+
+  **any(iterable) **
+
+  如果 iterable 的任一元素为真则返回True，如果迭代器为空，返回False。
+
+  ```python
+  def any(iterable):
+      for element in iterable:
+          if element:
+              return True
+      return False
+  
+  ```
+
+  **enumrate(iterable, start=0) **
+
+  返回一个枚举对象，iterable 必须是一个序列，或iterator， 或其他支持迭代对象
+  enumrate() 返回的迭代器\_\_next\_\_()方法返回一个元祖，里面包含一个计数值(从start开始，默认为0)和通过迭代iterable获得的值。
+
+  ```python
+  def enumerate(sequence, start = 0):
+      n = start
+      for element in sequence:
+          yield n, element
+          n += 1
+          
+  ```
 
 #### 1.7 string
 
@@ -1350,6 +1392,10 @@ with File('1.txt', 'w+') as f:
     
 ```
 
+##### 1.12.3 数据转换
+
+![image-20211111113048545](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20211111113048545.png)
+
 #### 1.13 Poperty属性
 
 ##### 1.13.1 定义
@@ -1685,6 +1731,8 @@ pirnt(user.name, user.age, user.height)
 
 ##### 2.8.4 defaultdict功能
 
++ defaultdict在复制时无需在判断键是否存在
+
 ```python
 from collections import defaultdict
 
@@ -1710,12 +1758,12 @@ user = ['1', '2', '3', '3', '5']
 
 userlist = deque(user)
 
-
 ```
 
 ##### 2.8.6 Counter功能
 
-+ 计数返回从大到小排序 topK问题(heap)
++ 计数返回从大到小排序
++ topK问题(heap)
 
 ```python
 from collections import Counter
@@ -1729,6 +1777,42 @@ print(userCount)
 
 print(userCount.most_common(2))
 
+```
+
+##### 2.8.7 OrderDict功能详解
+
++ OrderDict是有序的,即元素是按添加顺序展示的
++ 在Python2中,dict是无序的,而在Python3中是有序的
+
+```python
+from collections import OrderedDict
+
+userinfo = OrderedDict()
+
+userinfo['c'] = '3'
+userinfo['b'] = '2'
+userinfo['a'] = '1'
+
+print(userinfo.popitem())
+print(userinfo.move_to_end('c'))
+print(userinfo)
+
+```
+
+##### 2.8.9 ChainMap
+
++ 方便访问多个dict数据
+
+```python
+from collections import ChainMap
+
+user1 = {'a':1, 'b':2}
+user2 = {'c':3, 'd':4}
+
+user = ChainMap(user2, user1)
+for k, v in user.items():
+    print(k, v)
+    
 ```
 
 ### 三. 设计模式
@@ -2730,6 +2814,18 @@ echo "部署成功"
 
 4. HTML报告(安装Publish HTML Report)
    ![image-20210712135826716](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20210712135826716.png)
+
+#### 5.5 接口测试用例规范
+
+1.无痕的而非留下脏数据的
+
+2.参数随机而非固定的
+
+3.参数真是而非编造的
+
+4.结果需再次确认的而非只看当前返回的
+
+5.验证全面的而非单一的
 
 ### 六. 系统编程
 
@@ -6633,7 +6729,7 @@ SELECT d.* mx
 
 它表示随问题规模n的增大,算法执行时间的增长率和f(n)相同,并且只考虑数量级最高的语句执行频度,使用大O记号,O(f(n))称为算法渐进时间复杂度,简称时间复杂度
 
-==算法时间复杂度取决于最深循环内包含基本操作的语句的重复执行次数,称语句重复执行次数为语句的频度==
+==算法时间复杂度取决于最深循环内包含基本操作单元重复执行次数,称语句重复执行次数为语句的频度==
 
 时间复杂度是用来估计算法运行时间的一个单位
 
@@ -6656,6 +6752,26 @@ SELECT d.* mx
   空间复杂度是对一个算法在运行过程中临时占用存储空间大小的量度,所谓的临时占用存储空间指的就是代码中**辅助变量所占用的空间**,它包括为参数表中**形参变量**分配的存储空间和为在函数体中定义的**局部变量**分配的存储空间两个部分,我们用 S(n)=O(f(n))来定义,其中n为问题的规模(或大小)。通常来说,只要算法不涉及到动态分配的空间,以及递归、栈所需的空间,空间复杂度通常为O(1),一个一维数组a[n],空间复杂度O(n),二维数组为O(n^2)
 
 现阶段优化方向是**空间换时间**
+
+**利用装饰器计算程序运行时间**
+
+```python
+import time
+
+def runtime(func):
+    def wrapper(*args):
+        sta = time.time()
+        func(*args)
+        end = time.time()
+        print(f"TimeCost:{end-sta}")
+    return wrapper
+
+@runtime
+def on(n):
+    for i in range(n):
+        i += 1
+        
+```
 
 #### 11.2 线性表
 
@@ -6719,13 +6835,12 @@ SELECT d.* mx
 # 按值查找
 def search(sequ, elem):
     i = 0
-    while i < len(sequ)-1:
-        if self[i] == elem:
+    while i < len(sequ):
+        if sequ[i] == elem:
             return True
         else:
             i += 1
-    else:
-        return False
+    return False
     
 ```
 
@@ -7586,6 +7701,10 @@ def fastSort(sequ):
 print(fastSort([5, 4, 3, 2, 1]))
 
 ```
+
++ 分治策略
+
+  ​	将规模为n的原问题分解为规模减半的子问题，分别求解每个子问题，然后将这些子问题的解进行综合，从而得到原问题的解
 
 ```python
 def partition(nums, l, r):
@@ -8575,6 +8694,24 @@ def topKFrequent(words, k):
 
 ```
 
+###### 807)[保持城市天际线](https://leetcode-cn.com/problems/max-increase-to-keep-city-skyline/)
+
+```python
+def maxIncreaseKeepingSkyline(grid):
+    m, n = len(grid), len(grid[0])
+    row, col = m * [0], n * [0]
+    for i in range(m):
+        for j in range(n):
+            row[i] = max(row[i], grid[i][j])
+            col[j] = max(col[j], grid[i][j])
+    ans = 0
+    for i in range(m):
+        for j in range(n):
+            ans += min(row[i], col[j]) - grid[i][j]
+    return ans
+
+```
+
 ###### 881)[救生艇](https://leetcode-cn.com/problems/boats-to-save-people/)
 
 ```python
@@ -8731,3 +8868,4 @@ H5端包含单张领券、一键领券、我的优惠券等模块
 - 编写测试用例脚本完成遍历用例、执行用例、发起请求、断言请求结果、更新结果存储到数据库、邮件发送测试报告.
 - jmeter单机接口压力测试.
 - 涉及库有json、datetime、openpyxl、pymysql、requests、smtplib、email.mine.multipar
+
