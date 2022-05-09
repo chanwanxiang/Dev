@@ -1,15 +1,16 @@
+import json
 import os
 import sys
-import json
 from datetime import datetime
 
 # 追加导包路径
 sys.path.insert(0, r'.\.\apiTest')
 
 from dbUtil.dbUtil import mysqlDB
+from util.jarUtil import *
 from util.requestUtil import RequestUtil
 from util.tools import *
-from util.jarUtil import *
+
 
 class xsclassTestCase:
 
@@ -170,7 +171,7 @@ class xsclassTestCase:
 
     # 发送邮件
     def sendTestReport(self, app):
-        print('sendTestReport')
+        print('sendTestReport') 
 
 
 if __name__ == "__main__":
@@ -183,8 +184,5 @@ if __name__ == "__main__":
     xs.runCase(case6,'https://api.xdclass.net')
     xs.runAllCase('团餐机二期')
     """
-
-
-    for i in range(5, 0):
-        print(i)
+    xs.runAllCase('团餐机二期')
     
