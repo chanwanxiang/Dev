@@ -1,58 +1,47 @@
-##  面签系统
+##  面签
 
-###  一.项目流程
+###  一. 流程
 
 ![image-20210628170511943](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20210628170511943.png)
 
-###  二. 常用配置
+###  二. 配置
 
-Xshell
-118.31.187.147
-
-DataBaseInfo
-    Addr : rm-bp15m1mb7pc9w6921so.mysql.rds.aliyuncs.com
-    Act  : fv_test
-    Psw  : yw-fv*Test
-
-fv-dev : signtest环境
-    faceviewer_info             面签方的信息表
-    living_similarity_rule      面签活体验证指标
-    order_number                订单详细信息表
-    sys_config_group            系统个性化配置分组表
-
-admin账户被锁
+> admin账户登录限制
 
 redis:47.97.41.159  6379  FvDev@2020-yuuwei
 
-删除PRE_LOCK_ACCOUNT_+账号 PRE_FAIL_PWD_TIMES_+账号
+PRE_LOCK_ACCOUNT+ 账号 
+PRE_FAIL_PWD_TIMES+账号
 
-日志
-    /usr/program/tomcat-fv-dev/logs/catalina.out
-	/usr/program/tomcat-fv-dev/log/zgfv/business
+> 客户话术回答错误被锁
 
-signTest环境 : admindlm yuwei@123456
-面签正式环境 : admin Yu.Wei@54321
-宇银视环境 : admin icbc@123
+FORBIDDEN_FOR_INCORRECT_ANSWER_BANK
+FORBIDDEN_FOR_INCORRECT_ANSWER_CLIENTID
 
-{
-    '业务员':   ywceshi Ab@123456
-    '普通面签': loopCs  Ab@123456
-    '公证面签': Gzer    Ab@123456
-}
+> 面签/排队日志路径
 
-邓丽梅 13507666732
+/usr/program/tomcat-fv-dev/logs/catalina.out
+/usr/program/tomcat-fv-dev/log/zgfv/business
 
-##  云上分期
+/home/fv-dev/logs-local/business
+/opt/program/queue-svc/logs
 
-### 一. 业务流程
+> 排队公式
+
+score - ((入队时间-队首入队时间)/1000/10)*3
+
+入队时间-队首入队时间 = 毫秒 / 100 = 秒
+队列配置客户排队时长权重值每10秒 + 3, 所以再除以10乘3
+
+##  云上
+
+### 一. 流程
 
 ![image-20210628170709641](https://cdn.jsdelivr.net/gh/chanwanxiang/imageHosting/img/image-20210628170709641.png)
 
-### 二. 常用配置
+### 二. 配置
 
 账号信息测试环境
-
-![image-20210520105558772](C:/Users/Admin/AppData/Roaming/Typora/typora-user-images/image-20210520105558772.png)
 
 | NAME   |    PHONE    |  TITLE   |
 | ------ | :---------: | :------: |
@@ -62,13 +51,9 @@ signTest环境 : admindlm yuwei@123456
 | 陶俊杰 | 13984940855 | 勘验审批 |
 | 帅剑锋 | 17708514146 | 勘验人员 |
 
-李若梅  18786093460 业务员
-罗建    13511994833 调查员
-陈义娅  18385249959 征信审核员
+
 
 账号信息正式环境
-
-![image-20210520105643445](C:/Users/Admin/AppData/Roaming/Typora/typora-user-images/image-20210520105643445.png)
 
 | NAME   |    PHONE    | TITLE  | BIZTYPE |
 | ------ | :---------: | :----: | :-----: |
@@ -155,51 +140,10 @@ remote_platno == A-013 云上分期
 business_code == 01(车贷), 02(家装)
 
 remote_number 改为预关联订单一致
-load
+loan_number 为贷款
 
 */
 ```
-
-
-
-## 工作计划
-
-### 210628-210702
-
-1.公证系统测试
-2.云上分期对接面签系统测试用例评审
-3.面签relay修改测试方案
-4.宇为发券系统迭代需求用例编写
-5.面试x6
-
-### 210705-0709
-
-1.公证系统测试
-2.云上分期测试
-3.宇为发券系统测试
-4.熟悉面签排队系统迭代,准备测试用例
-5.面试x2
-
-### 210712-210716
-
-1.公证系统测试
-2.面签迭代测试用例编写
-3.云上分期测试
-4.宇为发券系统迭代需求用例编写
-
-### 210719-210723
-
-1.面签迭代测试
-2.云上分期测试
-3.宇为发券系统测试
-4.贵州工行账户面签系统认证流程测试
-5.面试x2
-
-### 210726-210730
-
-1.面签迭代测试
-2.云上分期测试
-3.面试x1
 
 
 

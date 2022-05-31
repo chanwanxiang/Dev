@@ -1,10 +1,10 @@
-from util.requestUtil import RequestUtil
-from dbUtil.dbUtil import mysqlDB
 import openpyxl
 import os
 import sys
 import json
 import datetime
+from dbUtil.dbUtil import mysqlDB
+from util.requestUtil import RequestUtil
 
 # 追加导包路径
 sys.path.insert(0, r'.\.\apiTest')

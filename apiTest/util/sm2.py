@@ -10,9 +10,7 @@ sm2Crypt = sm2.CryptSM2(public_key=pubKey, private_key=priKey)
 
 class Sm2():
     def encryptinfo(self, info):
-        """
-        将utf-8编码的info信息编码为unicode -> sm2加密 -> 加密密文解码
-        """
+        # 将utf-8编码的info信息编码为unicode -> sm2加密 -> 加密密文解码
         sm2info = sm2Crypt.encrypt(info.encode(encoding="utf-8"))
         b64info = b64encode(sm2info).decode()
         return b64info
