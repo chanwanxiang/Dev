@@ -1,16 +1,14 @@
 # coding:utf-8
 
-import pymysql, configparser
+import pymysql
 from pprint import pprint
 from datetime import datetime
 from prestool.Tool import Tool
 from warnings import filterwarnings
+from configparser import ConfigParser
 
 # 忽略mysql告警信息
 filterwarnings('ignore', category=pymysql.Warning)
-
-tl = Tool()
-
 
 class mysqlDB:
 
@@ -50,7 +48,13 @@ class mysqlDB:
 
 
 if __name__ == "__main__":
+    conf = ConfigParser()
+    with open(r'D:/Dev/apiTest/util/dbpara.ini', 'r') as f:
+        conf.read_file(f)
+        dbinfo = conf.items('localdb')
+    print(dbinfo)
     mydb = mysqlDB()
+
     # 查询
     # print(mydb.query('select * from `yw_question`'))
     # 添加 必须使用双眼号,单眼号出错
@@ -79,23 +83,3 @@ if __name__ == "__main__":
     #     afte = mydb.execute(f"insert into `yw_user_signup` SET `mobile`='{mobile}', `signup_at`='{time}', `quarter_num`=2, user_id={userid}, `userno`='{userno}'") 
     dt = mydb.query('SELECT * FROM `yw_users`', state='one')
     print(dt)
-
-# conn = pymysql.connect(host='127.0.0.1',port=3333,user='root',password='1234',database='xdcls')
-
-# # 操作cursor方法获取游标,得到一个可以执行的sql语句,并且将操作结果作为字典返回
-# cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-
-# try:
-#     # 使用execute方法执行sql查询
-#     cursor.execute('select * from `case`')
-#     # 使用fetchall查询所有 fetchone查询单条
-#     date = cursor.fetchall()
-#     # date = cursor.fetchone()
-
-#     print(date)
-
-# except Exception as e:
-#     print(e)
-
-# finally:
-#     conn.close()
