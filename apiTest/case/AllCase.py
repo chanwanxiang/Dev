@@ -29,8 +29,7 @@ for x in listwrite1:
 for y in listwrite2:
     sheet2.append(y)
 
-app = '小滴课堂'
-
+# app = '小滴课堂'
 # allCase = [x for x in list(sheet1.values) if x[1] == app]
 # keyvalue = list(list(sheet1.values)[0])
 # # print(keyvalue)
@@ -53,4 +52,4 @@ app = '小滴课堂'
 #     if x[1] == '小滴课堂':
 #         print(x)
 
-# wb.save('测试用例.xlsx')
+wb.save('测试用例.xlsx')
