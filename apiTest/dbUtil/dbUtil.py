@@ -1,6 +1,9 @@
 # coding:utf-8
 
+from typing import ItemsView
+from django.forms import FilePathField
 import pymysql
+import openpyxl
 from pprint import pprint
 from datetime import datetime
 from prestool.Tool import Tool
@@ -13,11 +16,13 @@ filterwarnings('ignore', category=pymysql.Warning)
 class mysqlDB:
 
     def __init__(self):
-        # 建立数据库连接 host='127.0.0.1', port=3333, user='root', password='123456', database='xdclass'
+        # 建立数据库连接
+        self.conn = pymysql.connect(
+            host='127.0.0.1', port=3333, user='root', password='123456', database='test')
         # self.conn = pymysql.connect(
         #     host='192.168.50.98', port=13306, user='root', password='123456', database='posOps')
-        self.conn = pymysql.connect(
-            host='47.97.192.122', port=3306, user='root', password='yw123456', database='payroll-service')
+        # self.conn = pymysql.connect(
+        #     host='47.97.192.122', port=3306, user='root', password='yw123456', database='payroll-service')
         # 使用cursor方法获取操作游标,得到一个可以执行的sql语句,并且操作结果作为字典返回的游标
         self.cur = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
 
@@ -48,13 +53,15 @@ class mysqlDB:
 
 
 if __name__ == "__main__":
-    conf = ConfigParser()
-    with open(r'D:/Dev/apiTest/util/dbpara.ini', 'r') as f:
-        conf.read_file(f)
-        dbinfo = conf.items('localdb')
-    print(dbinfo)
     mydb = mysqlDB()
 
+    # 使用excel导入数据库
+    filePath = './入库.xlsx'
+    wb = openpyxl.load_workbook(filePath)
+    sheet = wb.worksheets[0]
+    for i in list(sheet.values)[1:]:
+        mydb.execute(f"insert into `stu` set `id`={i[0]}, `stuName`='{i[1]}'")
+    
     # 查询
     # print(mydb.query('select * from `yw_question`'))
     # 添加 必须使用双眼号,单眼号出错
@@ -81,5 +88,5 @@ if __name__ == "__main__":
     #     openid, userid, userno = 'openid' + str(i+1), 30+i, 'cs' + str(i+1)
     #     step = mydb.execute(f"insert into `yw_users` SET `status`=1,`openid`='{openid}',`userno`='{userno}', `name`='{name}', `idcard`='{idcard}', `mobile`='{mobile}', `signup_at`='{time}', `is_in_white_list`=1, `quarter_num`=2")
     #     afte = mydb.execute(f"insert into `yw_user_signup` SET `mobile`='{mobile}', `signup_at`='{time}', `quarter_num`=2, user_id={userid}, `userno`='{userno}'") 
-    dt = mydb.query('SELECT * FROM `yw_users`', state='one')
-    print(dt)
+    # dt = mydb.query('SELECT * FROM `yw_users`', state='one')
+    # print(dt)

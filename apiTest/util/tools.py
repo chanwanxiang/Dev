@@ -23,12 +23,13 @@ def generateCode(codeleng):
 if __name__ == '__main__':
     wb = openpyxl.Workbook()
     sheet = wb.worksheets[0]
-    sheet.append(('姓名', '号码', '身份证号', '邀请码'))
+    sheet.append(('姓名', '号码', '身份证号', '随机码', '邀请码'))
     sheet.title = 'info'
     for i in range(20):
         name = cret.random_name()
         phone = cret.random_phone()
         idNo = cret.random_ssn()
+        randCode = cret.random_string(8)
         inviCode = generateCode(4)
-        sheet.append((name,phone, idNo, inviCode))
+        sheet.append((name,phone, idNo, randCode,inviCode))
     wb.save('info.xlsx')     
