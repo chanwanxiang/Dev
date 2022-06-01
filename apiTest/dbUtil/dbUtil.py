@@ -1,7 +1,5 @@
 # coding:utf-8
 
-from typing import ItemsView
-from django.forms import FilePathField
 import pymysql
 import openpyxl
 from pprint import pprint
@@ -64,6 +62,7 @@ if __name__ == "__main__":
     
     # 查询
     # print(mydb.query('select * from `yw_question`'))
+
     # 添加 必须使用双眼号,单眼号出错
     # answ = mydb.execute("insert into `case`(app) values('xls')")
     # answ = mydb.execute(f"insert into `yw_question` SET type_id = {str(randint(105, 120))}, question = '哈哈'")
@@ -71,7 +70,7 @@ if __name__ == "__main__":
     # pos巡检数据插入
     # for i in range(300001, 600001):
     #     cardname = tl.random_name()
-    #     # Python在执行sql语句时,如果传入的参数是str类型应加上引号
+    #     # TODO:Python在执行sql语句时,如果传入的参数是str类型应加上引号
     #     answ = mydb.execute(f"insert into `yw_order` SET `id`={i}, `status`={str(randint(0, 6))}, `type`=111, `establish_type`='机构创建', `start_time`='2021-12-31 08:00:00', `plan_end_time`='2021-12-24 08:00:00', `end_time`='2021-12-31 08:00:00', `urgency`={str(randint(0,1))}, `commerical_id`='88df536826f3dd2014567c67794cfe20', `user_name`={tl.random_phone()}, \
     #         `del_flag`='0', `create_time`='2021-12-20 08:00:00', `update_time`='2022-02-22 08:00:00', `create_dept_id`=2, `license_name`='杭州宇为科技有限公司', `license_num`='91330108MA27WYLH7Q', `license_avail_date`='2036-02-28', \
     #         `idcard_name`='{cardname}', `idcard_num`={tl.random_ssn()}, `idcard_avail_date`='2036-06-14', `idcard_type`='1', `commerical_title`='线上小店', `commerical_number`='CM0123456789110', `org_id`='57', `org_name`='测试机构', `two_branch`='贵阳分行', `two_branch_id`=2, `recstat`='0', `network`='IC0240200000', `inspect_comment`='任务成功', `inspector`='大白', `count_exception`=1, `inspect_time`='2021-12-31 08:00:00'")
@@ -88,5 +87,6 @@ if __name__ == "__main__":
     #     openid, userid, userno = 'openid' + str(i+1), 30+i, 'cs' + str(i+1)
     #     step = mydb.execute(f"insert into `yw_users` SET `status`=1,`openid`='{openid}',`userno`='{userno}', `name`='{name}', `idcard`='{idcard}', `mobile`='{mobile}', `signup_at`='{time}', `is_in_white_list`=1, `quarter_num`=2")
     #     afte = mydb.execute(f"insert into `yw_user_signup` SET `mobile`='{mobile}', `signup_at`='{time}', `quarter_num`=2, user_id={userid}, `userno`='{userno}'") 
+    
     # dt = mydb.query('SELECT * FROM `yw_users`', state='one')
     # print(dt)

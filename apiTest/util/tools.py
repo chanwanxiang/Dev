@@ -1,4 +1,3 @@
-import code
 import openpyxl, random
 from datetime import datetime
 from prestool.Tool import Tool
