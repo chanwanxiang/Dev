@@ -15,12 +15,14 @@ class mysqlDB:
 
     def __init__(self):
         # 建立数据库连接
-        self.conn = pymysql.connect(
-            host='127.0.0.1', port=3333, user='root', password='123456', database='test')
+        # self.conn = pymysql.connect(
+        #     host='127.0.0.1', port=3333, user='root', password='123456', database='test')
         # self.conn = pymysql.connect(
         #     host='192.168.50.98', port=13306, user='root', password='123456', database='posOps')
         # self.conn = pymysql.connect(
         #     host='47.97.192.122', port=3306, user='root', password='yw123456', database='payroll-service')
+        self.conn = pymysql.connect(
+            host=dbinfo['host'], port=int(dbinfo['port']), user=dbinfo['user'], password=dbinfo['password'], database=dbinfo['database'])
         # 使用cursor方法获取操作游标,得到一个可以执行的sql语句,并且操作结果作为字典返回的游标
         self.cur = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
 
@@ -51,14 +53,19 @@ class mysqlDB:
 
 
 if __name__ == "__main__":
+    conf = ConfigParser()
+    with open(r'D:/Dev/apiTest/util/dbpara.ini', 'r') as f:
+        conf.read_file(f)
+        dbinfo = dict(conf.items('localdb'))
+
     mydb = mysqlDB()
 
-    # 使用excel导入数据库
-    filePath = './入库.xlsx'
-    wb = openpyxl.load_workbook(filePath)
-    sheet = wb.worksheets[0]
-    for i in list(sheet.values)[1:]:
-        mydb.execute(f"insert into `stu` set `id`={i[0]}, `stuName`='{i[1]}'")
+    # # 使用excel导入数据库
+    # filePath = './入库.xlsx'
+    # wb = openpyxl.load_workbook(filePath)
+    # sheet = wb.worksheets[0]
+    # for i in list(sheet.values)[1:]:
+    #     mydb.execute(f"insert into `stu` set `id`={i[0]}, `stuName`='{i[1]}'")
     
     # 查询
     # print(mydb.query('select * from `yw_question`'))
