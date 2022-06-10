@@ -1,7 +1,10 @@
 # coding:utf-8
 
+from optparse import Values
+from tkinter.tix import Tree
 import pymysql
 import openpyxl
+from faker import Faker
 from pprint import pprint
 from datetime import datetime
 from prestool.Tool import Tool
@@ -10,6 +13,7 @@ from configparser import ConfigParser
 
 # 忽略mysql告警信息
 filterwarnings('ignore', category=pymysql.Warning)
+faker = Faker(locale='zh-CN')
 
 class mysqlDB:
 
@@ -59,13 +63,21 @@ if __name__ == "__main__":
         dbinfo = dict(conf.items('localdb'))
 
     mydb = mysqlDB()
+    # item = ['孔秀梅','18664433636','420502193307080','240100000','BNir7b','24010','24011','青龙支行','24110','青龙','64441.9','49886.67']
 
     # # 使用excel导入数据库
-    # filePath = './入库.xlsx'
-    # wb = openpyxl.load_workbook(filePath)
-    # sheet = wb.worksheets[0]
-    # for i in list(sheet.values)[1:]:
-    #     mydb.execute(f"insert into `stu` set `id`={i[0]}, `stuName`='{i[1]}'")
+    filePath = './stu.xlsx'
+    wb = openpyxl.load_workbook(filePath)
+    sheet = wb.worksheets[0]
+    # print(*tuple(sheet.values)[1:])
+    # valall = *tuple(sheet.valuses)[1:]
+    print((x for x in tuple(sheet.values)[1:]))
+
+    mydb.execute(f"insert into `stu`(`id`, `stuName`) values {tuple(x for x in tuple(sheet.values)[1:])}")
+    # # for循环insert into set ... key = val
+    # for item in list(sheet.values)[1:]:
+    #     mydb.execute(f"insert into `rsyy_cust_origin` set `tenant_id`='00000000', `cust_name`='{item[0]}', `phone`='{item[1]}', `cust_no`='{item[2]}', `manager_no`='{item[3]}', `sign_code`='{item[4]}', `branch`='{item[5]}', `sbranch`='{item[6]}', `sbranch_name`='{item[7]}', `outlet`='{item[8]}', `outlet_name`='{item[9]}', `stdd_aum`='{item[10]}', `rstd_aum`='{item[11]}'")
+ 
     
     # 查询
     # print(mydb.query('select * from `yw_question`'))
