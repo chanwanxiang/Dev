@@ -71,10 +71,10 @@ if __name__ == "__main__":
     sheet = wb.worksheets[0]
     # print(*tuple(sheet.values)[1:])
     # valall = *tuple(sheet.valuses)[1:]
-    print((x for x in tuple(sheet.values)[1:]))
+    #  TODO: 匿名函数构造insert into `table`(字段, ,) values (值, ,) 
+    mydb.execute(f"insert into `stu`(`id`, `stuName`) values {','.join(map(lambda x : str(x), tuple(sheet.values)[1:]))}")
 
-    mydb.execute(f"insert into `stu`(`id`, `stuName`) values {tuple(x for x in tuple(sheet.values)[1:])}")
-    # # for循环insert into set ... key = val
+    # TODO: for循环insert into `table` set ... key = val
     # for item in list(sheet.values)[1:]:
     #     mydb.execute(f"insert into `rsyy_cust_origin` set `tenant_id`='00000000', `cust_name`='{item[0]}', `phone`='{item[1]}', `cust_no`='{item[2]}', `manager_no`='{item[3]}', `sign_code`='{item[4]}', `branch`='{item[5]}', `sbranch`='{item[6]}', `sbranch_name`='{item[7]}', `outlet`='{item[8]}', `outlet_name`='{item[9]}', `stdd_aum`='{item[10]}', `rstd_aum`='{item[11]}'")
  
