@@ -1,19 +1,21 @@
 # coding:utf-8
 
-from optparse import Values
-from tkinter.tix import Tree
 import pymysql
-import openpyxl
+import openpyxl, random
 from faker import Faker
 from pprint import pprint
 from datetime import datetime
 from prestool.Tool import Tool
 from warnings import filterwarnings
 from configparser import ConfigParser
+import bson
+# from util.logUtil import loggerUtil
 
 # 忽略mysql告警信息
 filterwarnings('ignore', category=pymysql.Warning)
 faker = Faker(locale='zh-CN')
+pres = Tool()
+# logger = loggerUtil()
 
 class mysqlDB:
 
@@ -60,24 +62,32 @@ if __name__ == "__main__":
     conf = ConfigParser()
     with open(r'D:/Dev/apiTest/util/dbpara.ini', 'r') as f:
         conf.read_file(f)
-        dbinfo = dict(conf.items('localdb'))
+        dbinfo = dict(conf.items('cockpit'))
 
     mydb = mysqlDB()
-    # item = ['孔秀梅','18664433636','420502193307080','240100000','BNir7b','24010','24011','青龙支行','24110','青龙','64441.9','49886.67']
 
     # # 使用excel导入数据库
-    filePath = './stu.xlsx'
-    wb = openpyxl.load_workbook(filePath)
-    sheet = wb.worksheets[0]
+    # filePath = './stu.xlsx'
+    # wb = openpyxl.load_workbook(filePath)
+    # sheet = wb.worksheets[0]
     # print(*tuple(sheet.values)[1:])
     # valall = *tuple(sheet.valuses)[1:]
-    #  TODO: 匿名函数构造insert into `table`(字段, ,) values (值, ,) 
-    mydb.execute(f"insert into `stu`(`id`, `stuName`) values {','.join(map(lambda x : str(x), tuple(sheet.values)[1:]))}")
+    # TODO: 匿名函数构造insert into `table`(字段, ,) values (值, ,) 
+    # mydb.execute(f"insert into `stu`(`id`, `stuName`) values {','.join(map(lambda x : str(x), tuple(sheet.values)[1:]))}")
 
     # TODO: for循环insert into `table` set ... key = val
     # for item in list(sheet.values)[1:]:
     #     mydb.execute(f"insert into `rsyy_cust_origin` set `tenant_id`='00000000', `cust_name`='{item[0]}', `phone`='{item[1]}', `cust_no`='{item[2]}', `manager_no`='{item[3]}', `sign_code`='{item[4]}', `branch`='{item[5]}', `sbranch`='{item[6]}', `sbranch_name`='{item[7]}', `outlet`='{item[8]}', `outlet_name`='{item[9]}', `stdd_aum`='{item[10]}', `rstd_aum`='{item[11]}'")
  
+    # 数据库导出excel
+    # wb = openpyxl.Workbook()
+    # ws = wb.active
+    # ws.title = '用例'
+
+    # case = mydb.query("select * from `case`", state='one')
+    # print(tuple(case.keys()))
+    # ws.append(tuple(case.keys()))
+    # wb.save('case.xlsx')
     
     # 查询
     # print(mydb.query('select * from `yw_question`'))
@@ -109,3 +119,43 @@ if __name__ == "__main__":
     
     # dt = mydb.query('SELECT * FROM `yw_users`', state='one')
     # print(dt)
+
+    # cockpit数据
+    orgnum = {'10':'龙一', '20':'虎二', '30':'雀三', '40':'武四', '50':'麟五', '0240100001':'贵六'}
+
+    # 生成 biz_int_org_num_info 数据
+#   `org_id` bigint(22) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+#   `data_dt` date DEFAULT NULL COMMENT '数据时间（日更新）',
+#   `int_org_num_branch` varchar(32) DEFAULT NULL COMMENT '二级分行机构编码',
+#   `int_org_num_branch_nm` varchar(64) DEFAULT NULL COMMENT '二级分行名称',
+#   `int_org_num_subbranch` varchar(32) DEFAULT NULL COMMENT '一级支行机构编码',
+#   `int_org_num_subbranch_nm` varchar(64) DEFAULT NULL COMMENT '一级支行名称',
+#   `int_org_num` varchar(32) DEFAULT NULL COMMENT '网点机构编码',
+#   `int_org_num_nm` varchar(64) DEFAULT NULL COMMENT '网点机构名称',
+    # mydb.execute(f"INSERT INTO `biz_int_org_num_info` SET `data_dt`='2022-07-05', `int_org_num_branch`=1000", )
+        
+    for _ in range(200000):
+        custNo = bson.ObjectId()
+        i = random.randint(0, len(list(orgnum.keys())))
+        int_org_num_gh = list(orgnum.keys())[i-1]
+        cust_mger_id = int_org_num_gh + '001'
+        cust_mger_name = orgnum[int_org_num_gh]
+        year_avg_bal_dpsit_org = round(random.uniform(0, 100000), 2)
+        month_avg_bal_dpsit_org = round(random.uniform(0, 200000), 2)
+        acct_bal_dpsit_org = round(random.uniform(0, 100000), 2)
+        year_avg_bal_dpsit = round(random.uniform(0, 200000), 2)
+        month_avg_bal_dpsit = round(random.uniform(0, 200000), 2)
+        acct_bal_dpsit = round(random.uniform(0, 200000), 2)
+        year_avg_bal_dpsit_nc = round(random.uniform(0, 200000), 2)
+        month_avg_bal_dpsit_sy = round(random.uniform(0, 200000), 2)
+        acct_bal_dpsit_nc = round(random.uniform(0, 200000), 2)
+        year_avg_bal_asset = round(random.uniform(0, 200000), 2)
+        month_avg_bal_asset = round(random.uniform(0, 200000), 2)
+        acct_bal_asset = round(random.uniform(0, 200000), 2)
+        year_avg_bal_asset_nc = round(random.uniform(0, 200000), 2)
+        month_avg_bal_asset_sy = round(random.uniform(0, 200000), 2)
+        acct_bal_asset_nc = round(random.uniform(0, 200000), 2)
+
+        mydb.execute(f"INSERT INTO `biz_ghl_base_info` SET `data_dt`='2022-07-05', `int_org_num_gh`={int_org_num_gh}, `cust_mger_id`={cust_mger_id}, `cust_mger_name`='{cust_mger_name}',`year_avg_bal_dpsit_org`={year_avg_bal_dpsit_org}, `month_avg_bal_dpsit_org`={month_avg_bal_dpsit_org},`acct_bal_dpsit_org`={acct_bal_dpsit_org}, `valid_cust_ind`=1, `party_id`='{custNo}', `is_last_day_of_month`='0'")
+        mydb.execute(f"INSERT INTO `biz_party_base_info` SET `data_dt`='2022-07-05', `party_id`='{custNo}', `party_name`='{pres.random_name()}'")
+        mydb.execute(f"INSERT INTO `biz_asset_base_info` SET `data_dt`='2022-07-05', `party_id`='{custNo}', `zone_num`='0240',`year_avg_bal_dpsit`={year_avg_bal_dpsit}, `month_avg_bal_dpsit`={month_avg_bal_dpsit}, `acct_bal_dpsit`={acct_bal_dpsit}, `year_avg_bal_dpsit_nc`={year_avg_bal_dpsit_nc}, `month_avg_bal_dpsit_sy`={month_avg_bal_dpsit_sy}, `acct_bal_dpsit_nc`={acct_bal_dpsit_nc}, `year_avg_bal_asset`={year_avg_bal_asset}, `month_avg_bal_asset`={month_avg_bal_asset}, `acct_bal_asset`={acct_bal_asset}, year_avg_bal_asset_nc={year_avg_bal_asset_nc}, `month_avg_bal_asset_sy`={month_avg_bal_asset_sy}, acct_bal_asset_nc={acct_bal_asset_nc}")

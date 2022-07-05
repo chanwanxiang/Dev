@@ -33,7 +33,8 @@ if __name__ == '__main__':
         clientNo = idNo[:15]
         randCode = cret.random_string(8)
         inviCode = generateCode(6)
-        aum = round(random.uniform(0, 100000), 2)
-        aumMay = round(random.uniform(0, 70000), 2)
-        sheet.append((name, phone, clientNo,'', inviCode,'', '', '', '', '',  aum,aumMay))
+        baseAum = round(random.uniform(0, 100000), 2)
+        monthAum = round(random.uniform(0, 70000), 2)
+        sheet.append((name, phone, clientNo,'', inviCode,'', '', '', '', '',  baseAum, monthAum))
     wb.save('info.xlsx')     
+    print(createOrderNum())
