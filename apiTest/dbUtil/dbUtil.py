@@ -62,7 +62,7 @@ if __name__ == "__main__":
     conf = ConfigParser()
     with open(r'D:/Dev/apiTest/util/dbpara.ini', 'r') as f:
         conf.read_file(f)
-        dbinfo = dict(conf.items('cockpit'))
+        dbinfo = dict(conf.items('localdb'))
 
     mydb = mysqlDB()
 
@@ -121,7 +121,18 @@ if __name__ == "__main__":
     # print(dt)
 
     # cockpit数据
-    orgnum = {'10':'龙一', '20':'虎二', '30':'雀三', '40':'武四', '50':'麟五', '0240100001':'贵六'}
+    # orgnum = {'10':'龙一', '20':'虎二', '30':'雀三', '40':'武四', '50':'麟五', '0240100001':'贵六'}
+    for i in range(10000):
+        bankName = faker.province() + faker.city()
+        data_dt = '2022-07-05' # 0240100001
+        int_org_num_branch = '2002401' + str(i).zfill(5)
+        int_org_num_branch_nm = bankName + '分行'
+        int_org_num_subbranch = '1002401' + str(i).zfill(5)
+        int_org_num_subbranch_nm = bankName + '支行'
+        int_org_num = '02401' + str(i).zfill(5)
+        int_org_num_nm = bankName + '机构'
+        mydb.execute(f"INSERT INTO `biz_int_org_num_info` SET `data_dt`='2022-07-05', `int_org_num_branch`='{int_org_num_branch}',`int_org_num_subbranch_nm`='{int_org_num_subbranch_nm}', `int_org_num_branch_nm`='{int_org_num_branch_nm}', `int_org_num_subbranch`='{int_org_num_subbranch}', `int_org_num`='{int_org_num}', `int_org_num_nm`='{int_org_num_nm}'")
+    
 
     # 生成 biz_int_org_num_info 数据
 #   `org_id` bigint(22) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -133,29 +144,31 @@ if __name__ == "__main__":
 #   `int_org_num` varchar(32) DEFAULT NULL COMMENT '网点机构编码',
 #   `int_org_num_nm` varchar(64) DEFAULT NULL COMMENT '网点机构名称',
     # mydb.execute(f"INSERT INTO `biz_int_org_num_info` SET `data_dt`='2022-07-05', `int_org_num_branch`=1000", )
-        
-    for _ in range(200000):
-        custNo = bson.ObjectId()
-        i = random.randint(0, len(list(orgnum.keys())))
-        int_org_num_gh = list(orgnum.keys())[i-1]
-        cust_mger_id = int_org_num_gh + '001'
-        cust_mger_name = orgnum[int_org_num_gh]
-        year_avg_bal_dpsit_org = round(random.uniform(0, 100000), 2)
-        month_avg_bal_dpsit_org = round(random.uniform(0, 200000), 2)
-        acct_bal_dpsit_org = round(random.uniform(0, 100000), 2)
-        year_avg_bal_dpsit = round(random.uniform(0, 200000), 2)
-        month_avg_bal_dpsit = round(random.uniform(0, 200000), 2)
-        acct_bal_dpsit = round(random.uniform(0, 200000), 2)
-        year_avg_bal_dpsit_nc = round(random.uniform(0, 200000), 2)
-        month_avg_bal_dpsit_sy = round(random.uniform(0, 200000), 2)
-        acct_bal_dpsit_nc = round(random.uniform(0, 200000), 2)
-        year_avg_bal_asset = round(random.uniform(0, 200000), 2)
-        month_avg_bal_asset = round(random.uniform(0, 200000), 2)
-        acct_bal_asset = round(random.uniform(0, 200000), 2)
-        year_avg_bal_asset_nc = round(random.uniform(0, 200000), 2)
-        month_avg_bal_asset_sy = round(random.uniform(0, 200000), 2)
-        acct_bal_asset_nc = round(random.uniform(0, 200000), 2)
 
-        mydb.execute(f"INSERT INTO `biz_ghl_base_info` SET `data_dt`='2022-07-05', `int_org_num_gh`={int_org_num_gh}, `cust_mger_id`={cust_mger_id}, `cust_mger_name`='{cust_mger_name}',`year_avg_bal_dpsit_org`={year_avg_bal_dpsit_org}, `month_avg_bal_dpsit_org`={month_avg_bal_dpsit_org},`acct_bal_dpsit_org`={acct_bal_dpsit_org}, `valid_cust_ind`=1, `party_id`='{custNo}', `is_last_day_of_month`='0'")
-        mydb.execute(f"INSERT INTO `biz_party_base_info` SET `data_dt`='2022-07-05', `party_id`='{custNo}', `party_name`='{pres.random_name()}'")
-        mydb.execute(f"INSERT INTO `biz_asset_base_info` SET `data_dt`='2022-07-05', `party_id`='{custNo}', `zone_num`='0240',`year_avg_bal_dpsit`={year_avg_bal_dpsit}, `month_avg_bal_dpsit`={month_avg_bal_dpsit}, `acct_bal_dpsit`={acct_bal_dpsit}, `year_avg_bal_dpsit_nc`={year_avg_bal_dpsit_nc}, `month_avg_bal_dpsit_sy`={month_avg_bal_dpsit_sy}, `acct_bal_dpsit_nc`={acct_bal_dpsit_nc}, `year_avg_bal_asset`={year_avg_bal_asset}, `month_avg_bal_asset`={month_avg_bal_asset}, `acct_bal_asset`={acct_bal_asset}, year_avg_bal_asset_nc={year_avg_bal_asset_nc}, `month_avg_bal_asset_sy`={month_avg_bal_asset_sy}, acct_bal_asset_nc={acct_bal_asset_nc}")
+    
+        
+    # for _ in range(200000):
+    #     custNo = bson.ObjectId()
+    #     i = random.randint(0, len(list(orgnum.keys())))
+    #     int_org_num_gh = list(orgnum.keys())[i-1]
+    #     cust_mger_id = int_org_num_gh + '001'
+    #     cust_mger_name = orgnum[int_org_num_gh]
+    #     year_avg_bal_dpsit_org = round(random.uniform(0, 100000), 2)
+    #     month_avg_bal_dpsit_org = round(random.uniform(0, 200000), 2)
+    #     acct_bal_dpsit_org = round(random.uniform(0, 100000), 2)
+    #     year_avg_bal_dpsit = round(random.uniform(0, 200000), 2)
+    #     month_avg_bal_dpsit = round(random.uniform(0, 200000), 2)
+    #     acct_bal_dpsit = round(random.uniform(0, 200000), 2)
+    #     year_avg_bal_dpsit_nc = round(random.uniform(0, 200000), 2)
+    #     month_avg_bal_dpsit_sy = round(random.uniform(0, 200000), 2)
+    #     acct_bal_dpsit_nc = round(random.uniform(0, 200000), 2)
+    #     year_avg_bal_asset = round(random.uniform(0, 200000), 2)
+    #     month_avg_bal_asset = round(random.uniform(0, 200000), 2)
+    #     acct_bal_asset = round(random.uniform(0, 200000), 2)
+    #     year_avg_bal_asset_nc = round(random.uniform(0, 200000), 2)
+    #     month_avg_bal_asset_sy = round(random.uniform(0, 200000), 2)
+    #     acct_bal_asset_nc = round(random.uniform(0, 200000), 2)
+
+    #     mydb.execute(f"INSERT INTO `biz_ghl_base_info` SET `data_dt`='2022-07-05', `int_org_num_gh`={int_org_num_gh}, `cust_mger_id`={cust_mger_id}, `cust_mger_name`='{cust_mger_name}',`year_avg_bal_dpsit_org`={year_avg_bal_dpsit_org}, `month_avg_bal_dpsit_org`={month_avg_bal_dpsit_org},`acct_bal_dpsit_org`={acct_bal_dpsit_org}, `valid_cust_ind`=1, `party_id`='{custNo}', `is_last_day_of_month`='0'")
+    #     mydb.execute(f"INSERT INTO `biz_party_base_info` SET `data_dt`='2022-07-05', `party_id`='{custNo}', `party_name`='{pres.random_name()}'")
+    #     mydb.execute(f"INSERT INTO `biz_asset_base_info` SET `data_dt`='2022-07-05', `party_id`='{custNo}', `zone_num`='0240',`year_avg_bal_dpsit`={year_avg_bal_dpsit}, `month_avg_bal_dpsit`={month_avg_bal_dpsit}, `acct_bal_dpsit`={acct_bal_dpsit}, `year_avg_bal_dpsit_nc`={year_avg_bal_dpsit_nc}, `month_avg_bal_dpsit_sy`={month_avg_bal_dpsit_sy}, `acct_bal_dpsit_nc`={acct_bal_dpsit_nc}, `year_avg_bal_asset`={year_avg_bal_asset}, `month_avg_bal_asset`={month_avg_bal_asset}, `acct_bal_asset`={acct_bal_asset}, year_avg_bal_asset_nc={year_avg_bal_asset_nc}, `month_avg_bal_asset_sy`={month_avg_bal_asset_sy}, acct_bal_asset_nc={acct_bal_asset_nc}")
