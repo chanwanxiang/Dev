@@ -4,7 +4,8 @@ import sys
 from datetime import datetime
 
 # 追加导包路径
-sys.path.insert(0, r'.\.\apiTest')
+#sys.path.insert(0, r'.\.\apiTest')
+sys.path.append('/Users/ivi/Dev/apiTest')
 
 from dbUtil.dbUtil import mysqlDB
 from util.jarUtil import *

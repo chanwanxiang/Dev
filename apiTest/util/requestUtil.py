@@ -9,21 +9,20 @@ import requests
 class RequestUtil:
     def request(self, url, method, headers=None, params=None, contentType=None):
         try:
-            if method == 'get':
+            if method.upper() == 'GET':
                 result = requests.get(
                     url=url, params=params, headers=headers).json()
                 return result
-            elif method == 'post':
-                if contentType == 'data':
+            elif method.upper() == 'POST':
+                if contentType.upper() == 'DATA':
                     result = requests.post(
-                        url=url, data=params, headers=headers).json()
-                    return result
+                        url=url, data=params, headers=headers, verify=False).json()
                 else:
                     result = requests.post(
-                        url=url, json=params, headers=headers).json()
-                    return result
+                        url=url, json=params, headers=headers, verify=False).json()
+                return result
             else:
-                print('HTTP MEATHOD NOT ALLOWED')
+                print('不支持的请求方式')
 
         except Exception as e:
             print('HTTP请求报错:{0}'.format(e))
@@ -36,10 +35,10 @@ if __name__ == "__main__":
     # pprint.pprint(result)
 
     # url = 'https://api.xdclass.net/pub/api/v1/web/web_login'
-    url = 'https://signtest.yuuwei.com/bank/fv/detail/2021052517140012'
+    url = 'https://signtest.yuuwei.com/bank/fv/detail/2024020111140001'
     r = RequestUtil()
     headers = {'Content-Type': 'application/x-www-form-urlencoded',
-               'token': 'cefa30b1-a287-4ee9-ba4d-047384812a7e'}
+               'token': 'c168930f-fde4-4e6c-b961-243195469802'}
     # data = {'phone': '13113777555', 'pwd': '1234567890'}
     result = r.request(url, 'get', headers=headers)
     pprint.pprint(result)

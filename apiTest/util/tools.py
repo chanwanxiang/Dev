@@ -10,6 +10,11 @@ from prestool.Tool import Tool
 prest = Tool()
 faker = Faker(locale='zh-CN')
 
+def absp(path: str):
+    if path[0] != '/':
+        path = '/' + path
+    return
+
 def createOrderNum():
     return datetime.now().strftime('%Y%m%d%H%M%S') + '0'.zfill(1)
 
