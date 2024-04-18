@@ -10,8 +10,10 @@ STREAM_LOG_LEVEL = logging.DEBUG
 
 # 文件路径
 FILE_PATH = {
+    'testcase': os.path.join(DIR_PATH, 'testcase','login','login.yaml'),
     'extract': os.path.join(DIR_PATH, 'extract.yaml'),
-    'config': os.path.join(DIR_PATH, 'conf', 'conf.ini')
+    'config': os.path.join(DIR_PATH, 'conf', 'conf.ini'),
+    'log':os.path.join(DIR_PATH, 'log')
 }
 
 print(FILE_PATH['config'])

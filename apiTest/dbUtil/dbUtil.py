@@ -60,7 +60,7 @@ class mysqlDB:
 
 if __name__ == "__main__":
     conf = ConfigParser()
-    with open(r'D:/Dev/apiTest/util/dbpara.ini', 'r') as f:
+    with open(r'/Users/ivi/Dev/apiTest/util/dbpara.ini', 'r') as f:
         conf.read_file(f)
         dbinfo = dict(conf.items('localdb'))
 

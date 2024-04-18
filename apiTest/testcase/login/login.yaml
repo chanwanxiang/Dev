@@ -1,9 +1,9 @@
-- info:
-  apiName: 登录
-  path: /dar/user/login
-  method: post
-  hearder:
-    ContentType: application/x-www-formurlencoded;charset=UTF-8
+- baseinfo:
+      apiName: 登录
+      path: /dar/user/login
+      method: post
+      headers:
+        ContentType: application/x-www-formurlencoded;charset=UTF-8
   testCase:
     - caseName: 用户名和密码正确登录
       data:
@@ -12,7 +12,7 @@
       validation:
         - contains: {'msg': '登录成功'}
       extract:
-        token: $.token
+        token: ${token}
     - caseName: 用户名或密码错误登录
       data:
         user_name: test01
