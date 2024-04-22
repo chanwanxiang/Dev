@@ -15,5 +15,3 @@ FILE_PATH = {
     'config': os.path.join(DIR_PATH, 'conf', 'conf.ini'),
     'log':os.path.join(DIR_PATH, 'log')
 }
-
-print(FILE_PATH['config'])

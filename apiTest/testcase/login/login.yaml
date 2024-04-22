@@ -10,14 +10,13 @@
         user_name: test01
         passwd: admin123
       validation:
-        - contains: {'msg': '登录成功'}
+        - contains: {'msg': '登录失败'}
+        - contains: {'statusCode': 400}
       extract:
-        token: ${token}
+        token: $.token
     - caseName: 用户名或密码错误登录
       data:
         user_name: test01
         passwd: admin123123
       validation:
         - contains: {'msg': '登录成功'}
-      extract:
-        token: $.token

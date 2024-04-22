@@ -17,7 +17,7 @@ class LogUtil:
         if not logger.handlers:
             logger.setLevel(setting.LOG_LEVEL)
             logformatter = logging.Formatter(
-                '%(asctime)s - %(levelname)s - %(name)s - %(filename)s : %(lineno)d - [%(module)s:%(funcName)s] - %(message)s]')
+                '%(asctime)s - %(levelname)s - %(name)s - %(filename)s : %(lineno)d - [%(module)s:%(funcName)s] - %(message)s')
             fh = RotatingFileHandler(filename=logfile, mode='a', maxBytes=5242800, backupCount=7, encoding='utf-8')
             fh.setLevel(setting.LOG_LEVEL)
             fh.setFormatter(logformatter)
