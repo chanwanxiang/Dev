@@ -3,6 +3,7 @@ from conf.setting import FILE_PATH
 
 
 class ConfigUtil(object):
+
     def __init__(self, filePath=None):
         if filePath is None:
             self.filePath = FILE_PATH['config']
@@ -13,6 +14,7 @@ class ConfigUtil(object):
             self.config.read(self.filePath)
         except Exception as e:
             print('读取 conf 文件报错{0}'.format(e))
+
     def dealconfig(self, section, option):
         return self.config[section][option]
 

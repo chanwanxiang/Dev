@@ -1,6 +1,9 @@
+import operator
+
 import allure
 
 from common.logUtil import logs
+from common.dbUtil import ConnSql
 import jsonpath
 
 
@@ -21,27 +24,64 @@ class AssertUtil:
             print(asskey, assvalue, type(assvalue))
             if asskey == 'statusCode' and assvalue != statusCode:
                 flag -= 1
-                allure.attach(f'预期结果:{assvalue}， 实际结果:{resp}，响应断言结果失败')
-                logs.error(f'contains断言失败，接口返回码{statusCode}不等于{assvalue}')
+                allure.attach(f'预期结果:{assvalue}， 实际结果:{statusCode}', '响应code断言结果: 失败',
+                              allure.attachment_type.TEXT)
+                logs.error(f'contains断言失败，接口返回code{statusCode}不等于{assvalue}')
             else:
                 resplist = jsonpath.jsonpath(resp, f'$...{asskey}')
                 print(f'resp的值是{resplist}')
                 if isinstance(resplist[0], str):
                     resplist = ''.join(resplist)
+                    print(resplist, type(resplist))
                 if assvalue in resplist:
                     print('断言成功')
                 else:
                     flag -= 1
+                    allure.attach(f'预期结果:{assvalue}， 实际结果:{resplist}', '响应文本断言结果失败',
+                                  allure.attachment_type.TEXT)
                     logs.error(f'预期结果:{assvalue}，实际结果:{resplist}，响应文本断言失败')
 
         return flag
 
     def equalAssert(self, asserts, resp, statusCode):
+        flag = 1
+        reslst = []
+
+        # 处理实际结果数据结构，保持预期结果数据结构一致
         if isinstance(asserts, dict) and isinstance(resp, dict):
-            pass
+            for rest in resp:
+                if list(asserts.keys())[0] != rest:
+                    reslst.append(rest)
+            for rl in reslst:
+                del resp[rl]
+            print(f'处理后的结果{resp}')
+
+            # 判断预期结果字典是否与实际结果字典一致性
+            equAss = operator.eq(asserts, resp)
+            if equAss:
+                logs.info(f'相等断言成功:接口实际结果为{resp},等于预期结果{asserts}')
+            else:
+                flag -= 1
+                logs.info(f'相等断言失败:接口实际结果为{resp},不等预期结果{asserts}')
+        else:
+            raise TypeError('equal 断言失败-类型错误，预期结果以及接口响应必须为 dict 类')
+
+        return flag
 
     def notEqualAssert(self, asserts, resp):
         pass
+
+    def sqlAssert(self, expectSql):
+        flag = 1
+        conn = ConnSql()
+        dbValue = conn.query(expectSql)
+        if dbValue:
+            logs.info('db断言成功')
+        else:
+            flag -= 1
+            logs.error('db断言失败，请检查数据库是否存在该数据')
+
+        return flag
 
     def assertMain(self, expect, resp, statusCode):
         flag = 1
@@ -52,8 +92,10 @@ class AssertUtil:
                         flag = self.containsAssert(exvalue, resp, statusCode)
                     if exkey == 'equal':
                         self.equalAssert(exvalue, resp, statusCode)
+                    if exkey == 'db':
+                        self.sqlAssert(exvalue)
 
-            assert  flag == 1
+            assert flag == 1
             logs.info('测试成功')
         except Exception as e:
             logs.error('测试失败')
@@ -74,4 +116,5 @@ if __name__ == '__main__':
             'token': '2eA527a8EcF2Ff9E01D00DbED62F7', 'userId': '8345231644817030159'}
     for i in case:
         for k, v in i.items():
-            au.containsAssert(v, resp, 200)
+            print(k, v)
+            au.assertMain(v, resp, 200)
