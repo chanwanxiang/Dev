@@ -1,10 +1,34 @@
+import time
+from playwright.sync_api import sync_playwright
+
+
 class BasePage:
 
-    def __init__(self, driver):
-        self.driver = driver      # 驱动传入构造函数，继承页面类实例化需传入driver
+    def __init__(self):
+        self.playwright = sync_playwright().start()
+        self.browser = self.playwright.chromium.launch(headless=False, channel='chrome')
+        self.context = self.browser.new_context(viewport={'width': 1920, 'height': 1080})
+        self.page = self.context.new_page()
 
-    def open(self, page):         # 打开url：根据传入的page类名，跳转到该页面
-        self.driver.get(page.url) # 该页面需要有url属性
+    # 跳转 url 地址
+    def navigate(self, url):
+        self.page.goto(url)
+        time.sleep(1)
 
-    def find_element(self, locator):  # 查找元素简化方法
-        return self.driver.find_element(*locator)
+    def close(self):
+        time.sleep(1)
+        self.page.close()
+        self.playwright.stop()
+
+    def clickEnter(self, elem):
+        self.page.locator(elem).keyboard.press('Enter')
+
+    def clickTab(self):
+        self.page.keyboard('Tab')
+
+    def scroll(self, elem):
+        self.page.locator(elem).scroll_into_view_if_needed()
+        time.sleep(1)
+
+    def screenshot(self, elem, filename):
+        self.page.locator(elem).screenshot(path=f'../ishot/{filename}.png')

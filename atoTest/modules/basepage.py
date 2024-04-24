@@ -1,6 +1,7 @@
 import os, time
-from playwright.sync_api import expect, Page
 from util.tools import absp
+from playwright.sync_api import expect, Page
+
 
 
 # 类是对象的模板, 对象是类的实例
@@ -42,3 +43,14 @@ class BasePage:
 
     def switchtab(self, page: Page, tabname: str):
         self.page.locator("//div[@role='tab']").filter(has_text=tabname).click()
+
+
+    # 关闭
+    def close(self):
+        time.sleep(3)
+        self.page.close()
+        self.playwright.stop()
+
+    # 点击Enter键
+    def clickEnter(self, elem):
+        self.page.locator(elem).keyboard.press("Enter")

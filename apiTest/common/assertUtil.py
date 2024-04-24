@@ -1,10 +1,8 @@
-import operator
-
 import allure
-
+import operator
+import jsonpath
 from common.logUtil import logs
 from common.dbUtil import ConnSql
-import jsonpath
 
 
 class AssertUtil:
@@ -21,7 +19,6 @@ class AssertUtil:
         # 断言状态标识 0:失败 1:成功
         flag = 1
         for asskey, assvalue in asserts.items():
-            print(asskey, assvalue, type(assvalue))
             if asskey == 'statusCode' and assvalue != statusCode:
                 flag -= 1
                 allure.attach(f'预期结果:{assvalue}， 实际结果:{statusCode}', '响应code断言结果: 失败',
@@ -29,12 +26,10 @@ class AssertUtil:
                 logs.error(f'contains断言失败，接口返回code{statusCode}不等于{assvalue}')
             else:
                 resplist = jsonpath.jsonpath(resp, f'$...{asskey}')
-                print(f'resp的值是{resplist}')
                 if isinstance(resplist[0], str):
                     resplist = ''.join(resplist)
-                    print(resplist, type(resplist))
                 if assvalue in resplist:
-                    print('断言成功')
+                    logs.info('contains文本断言成功')
                 else:
                     flag -= 1
                     allure.attach(f'预期结果:{assvalue}， 实际结果:{resplist}', '响应文本断言结果失败',
@@ -54,7 +49,6 @@ class AssertUtil:
                     reslst.append(rest)
             for rl in reslst:
                 del resp[rl]
-            print(f'处理后的结果{resp}')
 
             # 判断预期结果字典是否与实际结果字典一致性
             equAss = operator.eq(asserts, resp)
@@ -67,9 +61,6 @@ class AssertUtil:
             raise TypeError('equal 断言失败-类型错误，预期结果以及接口响应必须为 dict 类')
 
         return flag
-
-    def notEqualAssert(self, asserts, resp):
-        pass
 
     def sqlAssert(self, expectSql):
         flag = 1
