@@ -12,14 +12,9 @@ from cases.basecase import BaseCase
 
 
 class TestNewApp(BaseCase):  # 继承BaseCase
-	"""
-	验证新建应用
-	"""
 
 	def test_new_app(self):
-		"""
-		新建应用
-		"""
+
 		# 登录
 		user_login = LoginPage(self.driver)
 		user_login.open(user_login)        # 跳转到登录页

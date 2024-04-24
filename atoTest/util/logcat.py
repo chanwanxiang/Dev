@@ -2,8 +2,9 @@ import subprocess
 
 def getlogcat(packName=None):
     command = f'adb logcat | grep "{packName}"'
+    cmd = f'adb logcat | grep "{packName}"'
     try:
-        logcatprocess = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        logcatprocess = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         logcatoutput, _ = logcatprocess.communicate()
         return logcatoutput.decode('utf-8')
     except Exception as e:
