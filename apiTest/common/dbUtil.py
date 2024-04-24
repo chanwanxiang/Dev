@@ -1,25 +1,22 @@
+import pymysql
 from common.logUtil import logs
 from conf.confUtil import ConfigUtil
-import pymysql
 
 configUtil = ConfigUtil()
 
 
 class ConnSql:
     def __init__(self):
-        sqlconfig = {
+        sqlConfig = {
             'host': configUtil.dealconfig('MYSQL', 'host'),
-            'port': configUtil.dealconfig('MYSQL', 'port'),
+            'port': int(configUtil.dealconfig('MYSQL', 'port')),
             'user': configUtil.dealconfig('MYSQL', 'user'),
             'password': configUtil.dealconfig('MYSQL', 'password'),
             'database': configUtil.dealconfig('MYSQL', 'database')
         }
-        try:
-            self.conn = pymysql.connect(**sqlconfig, charset='utf8mb4')
-            self.cur = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
-            logs.info('成功连接到数据库')
-        except Exception as e:
-            logs.error(e)
+        self.conn = pymysql.connect(**sqlConfig, charset='utf8mb4')
+        self.cur = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
+        logs.info('成功连接到数据库')
 
     def __del__(self):
         # 关闭游标以及连接
