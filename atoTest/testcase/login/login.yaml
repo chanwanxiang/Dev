@@ -1,0 +1,7 @@
+- testcase:  
+    name: 'login'
+    description: '登录'
+    url: 'https://test104.yuuwei.com/admin/index/index.html'
+    -data:
+      username: 'haax'
+      password: 'saas2020'
