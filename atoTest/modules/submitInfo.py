@@ -47,6 +47,13 @@ item = {
     }
 }
 
+upload = {
+    '车辆登记证书': 'testfile/分期补录/车辆登记证书.png',
+    '车辆保险单':'testfile/分期补录/车辆保险单.png',
+    '二手车评估报告':'testfile/分期补录/二手车评估报告.png',
+    '房产证':'testfile/分期补录/房产证.png'
+}
+
 
 class SubmitInfo(BasePage):
 
@@ -68,8 +75,9 @@ class SubmitInfo(BasePage):
         iframe.get_by_role(
             "button", name="编辑").click()
         self.fillinfo(page, elem)
-        iframe.get_by_role(
-            "button", name="保存").click()
+        iframe.get_by_title("进入单位时间").get_by_role("textbox").click()
+        iframe.get_by_text("10", exact=True).first.click()
+        iframe.get_by_role("button", name="保存").click()
         page.wait_for_timeout(1000)
         iframe.get_by_role(
             "tab", name="车辆分期信息").click()
@@ -77,13 +85,24 @@ class SubmitInfo(BasePage):
         self.fillinfo(page, item)
         iframe.get_by_title(
             "车辆上牌地").get_by_placeholder("请选择").click()
+        # page.pause()
         iframe.get_by_role(
-            "menuitem", name="北京市 ").locator("span").click()
+            "menuitem", name="河北省").locator("span").click()
         iframe.get_by_role(
-            "menuitem", name="市辖区").locator("span").click()
+            "menuitem", name="石家庄市").locator("span").click()
         iframe.get_by_role(
             "button", name="保存").click()
-        page.pause()
+        # page.pause()
+        # page.frame_locator("iframe >> nth=1").get_by_role("button", name="上传影像材料").click()
+        iframe.get_by_role('button', name='上传影像材料').click()
+
+        for p, q in upload.items():
+            iframe.get_by_role('treeitem', name=re.compile(rf'{p}$')).click()
+            with page.expect_file_chooser() as chooser:
+                iframe.get_by_role('button', name='点击上传').click()
+            chooser.value.set_files(q)
+        iframe.get_by_role('button', name='保存').last.click()
+
         page.wait_for_timeout(500)
 
     def fillinfo(self, page: Page, item: dict):
@@ -104,7 +123,7 @@ class SubmitInfo(BasePage):
             if not y:
                 p = iframe.locator(
                     'li:visible').all_inner_texts()
-                q = [e for e in p if containsChinese(e)]
+                q = [e for e in p if containsZh(e)]
                 y = random.choices(q)[0]
             iframe.locator('li:visible').filter(has_text=re.compile(rf'^{y}$')).click()
             page.keyboard.press('Tab')
