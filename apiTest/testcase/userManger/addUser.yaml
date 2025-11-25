@@ -1,0 +1,30 @@
+- baseinfo:
+      apiName: 新增用户
+      path: /dar/user/addUser
+      method: post
+      headers:
+        ContentType: application/x-www-formurlencoded;charset=UTF-8
+  testCase:
+    - caseName: 正确新增用户
+      data:
+        username: adduser
+        password: test123456
+        role_id: 12345678
+        dates: ${get_now_date()}
+        phone: 13800000000
+        token: ${get_extract_date(token)}
+      validation:
+        - contains: {'status_code': 200}
+        - contains: {'msg': '新增成功'}
+      extract:
+        token: $.token
+    - caseName: 异常新增用户
+      data:
+        username: testadduser
+        password: test123456
+        role_id: 12345678
+        dates: ${get_now_date()}
+        phone: 13800000000
+        token: ${get_extract_date(token)}
+      validation:
+        - contains: {'msg': '新增失败'}

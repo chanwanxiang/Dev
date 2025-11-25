@@ -1,0 +1,13 @@
+- baseinfo:
+      apiName: 商品列表
+      path: /coupApply/cms/goodsList
+      method: get
+      headers:
+        ContentType: application/x-www-formurlencoded;charset=UTF-8
+  testCase:
+    - caseName: 获取商品列表
+      params:
+        msgType: getHandsetListOfCust
+        page: 1
+      validation:
+        - contains: {'error_code': '0000'}
