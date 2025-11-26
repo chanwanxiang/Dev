@@ -1,23 +1,37 @@
 - baseinfo:
       apiName: 下单接口
-      path: /dar/user/login
+      path: /api/order/customer/orderPlan/create
       method: post
       headers:
         ContentType: application/x-www-formurlencoded;charset=UTF-8
+      cookies:
+        ${get_extract_data(Cookie)}
   testCase:
-    - caseName: 用户名和密码正确登录
-      data:
-        user_name: test01
-        passwd: admin123
+    - caseName: 用户下单
+      json:
+        orderInfo:
+          template: define
+          urgentType: 2
+          cusName: 总仓
+          orderType: 1
+          charter: 2
+          planType: 1
+          transStartTime: ${get_now_date()}
+          transEndTime: '2023-07-16 10:38:58'
+          orderMark: 货主备注
+          cusId: 1661242770195464193
+        orderCapacityList:
+          - materialCategoryId: ${get_extract_data(materialId,0)}
+            materialCategory: 粮食
+            materialName: 小麦
+            materialUnit: KG
+            materialUnitId: 1660891402561581058
+            settlementUnit: KG
+            syncMaterialId: 4
+            materialId: 1661349087048306690
+            sendCusId: 1661663745663741954
+            sendAdrName: 长宁县五谷粮食购销有限责任公司
       validation:
-        - contains: {'msg': '登录成功'}
-        - equal: {'msg': '登录成功'}
+        - contains: { 'message': '操作成功' }
       extract:
-        token: $.token
-    - caseName: 用户名或密码错误登录
-      data:
-        user_name: test01
-        passwd: admin123123
-      validation:
-        - contains: {'msg': '登录失败'}
-        - db: SELECT * FROM TABLE;
+        orderId: $.orderNo

@@ -1,0 +1,15 @@
+- baseinfo:
+      apiName: 分配物流接口
+      path: /api/order/pc/order/assign
+      method: post
+      headers:
+        ContentType: application/json;charset=UTF-8
+      cookies:
+        ${get_extract_data(Cookie)}
+  testCase:
+    - caseName: 分配物流
+      json:
+        orderId: ${get_extract_data(orderId)}
+        orgId: '4140913758110176843'
+      validation:
+        - contains: { 'message': '操作成功' }

@@ -1,0 +1,14 @@
+- baseinfo:
+      apiName: 物料信息接口
+      path: /api/order/customer/orderPlan/getMaterial
+      method: post
+      headers:
+        ContentType: application/json;charset=UTF-8
+      cookies:
+        ${get_extract_data(Cookie)}
+  testCase:
+    - caseName: 获取物料信息
+      validation:
+        - contains: { 'message': '操作成功' }
+      extract_list:
+        materialId: $.material[*]

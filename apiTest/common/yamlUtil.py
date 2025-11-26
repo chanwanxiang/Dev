@@ -34,7 +34,6 @@ class YamlUtil(object):
                 if len(content) <= 1:
                     content = content[0]
                     baseinfo = content['baseinfo']
-                    print(baseinfo)
                     for case in content['testCase']:
                         cases.append([baseinfo, case])
                     return cases
@@ -111,6 +110,7 @@ class YamlUtil(object):
         validation = case.pop('validation')
         extract = case.pop('extract', None)
         extracts = case.pop('extracts', None)
+
         resp = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method, headers=headers,
                                     cookies=cookies, file=None, **case)
         allure.attach(str(resp), f'接口实际响应信息:{resp}', allure.attachment_type.TEXT)
