@@ -1,6 +1,7 @@
 import os
 import time
 from util.tools import absp
+from common.rdwtUtil import YamlUtil
 from playwright.sync_api import sync_playwright, Page
 
 
@@ -13,7 +14,11 @@ class BasePage:
         self.page = self.context.new_page()
 
     # cookie登录
-    def loginWithCookies(self, page: Page, username: str, password: str):
+    def loginWithCookies(self):
+        data = YamlUtil().rdYaml('login')
+        url = data['url']
+        username = data['elem']['username']
+        password = data['elem']['password']
         if os.path.exists(absp(f'auth/{username}.txt')) and int(time.time() - os.path.getctime(absp(f'auth/{username}.txt'))) < 200:
             self.page.context.clear_cookies()
             with open(absp(f'auth/{username}.txt')) as f:

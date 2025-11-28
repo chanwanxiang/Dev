@@ -1,4 +1,5 @@
-import os, re, time
+import re
+import os
 
 
 def absp(path: str):
@@ -6,5 +7,6 @@ def absp(path: str):
         path = f'/{path}'
     return f'{os.path.abspath(os.path.dirname(os.path.dirname(__file__)))}{path}'
 
-def containsChinese(elem):
+
+def containsZh(elem):
     return bool(re.search(r'[\u4e00-\u9fff]+', elem))

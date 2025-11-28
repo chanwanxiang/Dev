@@ -1,13 +1,15 @@
 import json
 import pprint
 import requests
+
+
 # from util import
 
 # HTTP工具类封装 每个请求需要做异常捕获,日志记录,协议转换,封装工具方便进行统一维护
 
 
 class RequestUtil:
-    def request(self, url, method, headers=None, params=None, contentType=None):
+    def sendrequest(self, url, method, headers=None, params=None, contentType=None):
         try:
             if method.upper() == 'GET':
                 result = requests.get(
