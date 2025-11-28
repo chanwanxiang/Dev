@@ -21,7 +21,7 @@
           orderMark: 货主备注
           cusId: 1661242770195464193
         orderCapacityList:
-          - materialCategoryId: ${get_extract_data(materialId,0)}
+          - materialCategoryId: ${dealextractYaml('materialId',0)}
             materialCategory: 粮食
             materialName: 小麦
             materialUnit: KG

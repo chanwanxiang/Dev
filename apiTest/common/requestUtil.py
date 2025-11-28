@@ -1,8 +1,9 @@
-import json
 import pprint
 import requests
-from common.logUtil import logs
 from requests import utils
+from common.logUtil import logs
+
+
 # from common.yamlUtil import YamlUtil
 
 
@@ -13,7 +14,7 @@ class RequestUtil:
 
     def request(self, url, method, headers=None, params=None, contentType=None, file=None, **kwargs):
         try:
-            if method== 'get':
+            if method == 'get':
                 result = requests.get(
                     url=url, params=params, headers=headers).json()
                 return result
@@ -50,7 +51,6 @@ class RequestUtil:
 
         return resp
 
-
     def runMain(self, apiName, caseName, url, method, headers, cookies, file, **kwargs):
         logs.info(f'接口名称{apiName}')
         logs.info(f'接口地址{url}')
@@ -63,8 +63,10 @@ class RequestUtil:
 
 
 if __name__ == "__main__":
-    url = 'http://127.0.0.1:8787/dar/user/login'
+    # url = 'http://127.0.0.1:8787/dar/user/login'
+    url = 'http://127.0.0.1:8787/coupApply/cms/goodsList'
     r = RequestUtil()
-    params = {'user_name': 'test01', 'passwd': 'admin123'}
-    result = r.request(url=url, method='post', params=params)
+    # params = {'user_name': 'test01', 'passwd': 'admin123'}
+    params = {'msgType': 'getHandsetListOfCust'}
+    result = r.request(url=url, method='get', params=params)
     pprint.pprint(result)

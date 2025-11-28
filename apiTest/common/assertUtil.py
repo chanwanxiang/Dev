@@ -25,7 +25,7 @@ class AssertUtil:
                               allure.attachment_type.TEXT)
                 logs.error(f'contains断言失败，接口返回code{statusCode}不等于{assvalue}')
             else:
-                resplist = jsonpath.jsonpath(resp, f'$...{asskey}')
+                resplist = jsonpath.jsonpath(resp, f'$..{asskey}')
                 if isinstance(resplist[0], str):
                     resplist = ''.join(resplist)
                 if assvalue in resplist:
@@ -100,12 +100,13 @@ if __name__ == '__main__':
     from common.yamlUtil import YamlUtil
 
     yu = YamlUtil()
-    case = yu.rdYaml(FILE_PATH['testcase'])[0]['testCase'][0]['validation']
+    case = yu.rdYaml(FILE_PATH['testcase'])[0]
+    contains = {'contains': {'error_code': '0000'}}
     print(case)
     au = AssertUtil()
-    resp = {'error_code': None, 'msg': '登录成功', 'msg_code': 200, 'orgId': '6140913758128971280',
-            'token': '2eA527a8EcF2Ff9E01D00DbED62F7', 'userId': '8345231644817030159'}
-    for i in case:
-        for k, v in i.items():
-            print(k, v)
-            au.assertMain(v, resp, 200)
+    # resp = {'error_code': None, 'msg': '登录成功', 'msg_code': 200, 'orgId': '6140913758128971280',
+    #         'token': '2eA527a8EcF2Ff9E01D00DbED62F7', 'userId': '8345231644817030159'}
+    # for i in case:
+    #     for k, v in i.items():
+    #         print(k, v)
+    #         au.assertMain(v, resp, 200)

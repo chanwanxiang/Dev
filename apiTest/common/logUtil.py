@@ -1,7 +1,8 @@
 import logging
-from logging.handlers import RotatingFileHandler
 import os
 import time
+from logging.handlers import RotatingFileHandler
+
 from conf import setting
 
 logpath = setting.FILE_PATH['log']

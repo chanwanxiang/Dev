@@ -3,11 +3,11 @@ import json
 import yaml
 import allure
 import jsonpath
-import util.tools as tools
+from datetime import datetime
 from common.logUtil import logs
 from conf.confUtil import ConfigUtil
 from conf.setting import FILE_PATH
-from  common.assertUtil import AssertUtil
+from common.assertUtil import AssertUtil
 from common.requestUtil import RequestUtil
 
 
@@ -61,7 +61,7 @@ class YamlUtil(object):
         finally:
             file.close()
 
-    def dealextractYaml(self, nodename, stepnodename = None):
+    def dealextractYaml(self, nodename, stepnodename=None):
         content = self.rdYaml()
         if stepnodename is None:
             return content[nodename]
@@ -74,14 +74,14 @@ class YamlUtil(object):
 
         for i in range(data.count('${')):
             if '${' in data and '}' in data:
-                stainx = data.index('$')
+                stainx = data.index('${')
                 endinx = data.index('}', stainx)
                 orig = data[stainx:endinx + 1]
                 valu = orig.strip('${}')
                 funcname = valu[:valu.index('(')]
                 funcpara = valu[valu.index('(') + 1:valu.index(')')]
                 # 获取替换函数的值
-                targetfunc = getattr(tools, funcname, 'Unknown')
+                targetfunc = getattr(self, funcname, 'Unknown')
                 if targetfunc != 'Unknown':
                     target = targetfunc(*funcpara.split(',') if funcpara else '')
                     data = data.replace(orig, target)
@@ -126,9 +126,9 @@ class YamlUtil(object):
         extractlist = case.pop('extractlist', None)
 
         resp = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method, headers=headers,
-                                    cookies=cookies, file=None, **case)
+                                 cookies=cookies, file=None, **case)
         allure.attach(str(resp), f'接口实际响应信息:{resp}', allure.attachment_type.TEXT)
-        allure.attach(str(case),f'请求参数:{case}',allure.attachment_type.TEXT)
+        allure.attach(str(case), f'请求参数:{case}', allure.attachment_type.TEXT)
 
         if extract:
             self.extractinfo(extract, resp)
@@ -137,7 +137,6 @@ class YamlUtil(object):
 
         # 断言 resp['msg_code'] = 200
         self.assu.assertMain(validation, resp, 200)
-
 
     def extractinfo(self, extract, resp):
         # json 提取参数
@@ -162,10 +161,15 @@ class YamlUtil(object):
             data = json.loads(data)
         funcname = self.replYaml(data)
 
+    @staticmethod
+    def nowtime():
+        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 
 if __name__ == '__main__':
     yu = YamlUtil()
-    # case = yu.rdYaml(FILE_PATH['extract'])
-    # token = yu.dealextractYaml('goodid')
-    case = yu.rdYaml('/Users/ivi/Dev/apiTest/testcase/transactionflow/creatOrder.yaml')
-    print(case)
+    case = yu.rdYaml(FILE_PATH['extract'])
+    # token = yu.dealextractYaml('token')
+    token = yu.dealextractYaml('goodid', 0)
+    # case = yu.rdYaml('/Users/ivi/Dev/apiTest/testcase/userManger/addUser.yaml')
+    print(token)

@@ -10,7 +10,7 @@
         username: testadduser
         password: test123456
         role_id: 12345678
-        dates: ${get_now_date()}
+        dates: ${nowtime()}
         phone: 13800000001
       validation:
         - contains: {'status_code': 200}
@@ -22,7 +22,7 @@
         username: testadduser
         password: test123456
         role_id: 12345678
-        dates: ${get_now_date()}
+        dates: ${nowtime()}
         phone: 13800000000
       validation:
         - contains: {'msg': '新增失败'}
