@@ -1,6 +1,5 @@
-from playwright.sync_api import expect, Page
-
 import re
+from playwright.sync_api import expect, Page
 
 
 class Locators:
@@ -16,3 +15,12 @@ class Locators:
             return  elem
         else:
             elemRex = re.compile(f"^\\s")
+
+    def filldata(self, page: Page, elem: dict) -> None:
+        """
+        填充数据
+        :param page:
+        :param elem:
+        :return:
+        """
+        

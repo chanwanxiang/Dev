@@ -3,7 +3,6 @@ from util.tools import absp
 from playwright.sync_api import expect, Page
 
 
-
 # 类是对象的模板, 对象是类的实例
 class BasePage:
 

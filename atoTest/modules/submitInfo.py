@@ -102,7 +102,6 @@ class SubmitInfo(BasePage):
                 iframe.get_by_role('button', name='点击上传').click()
             chooser.value.set_files(q)
         iframe.get_by_role('button', name='保存').last.click()
-
         page.wait_for_timeout(500)
 
     def fillinfo(self, page: Page, item: dict):
