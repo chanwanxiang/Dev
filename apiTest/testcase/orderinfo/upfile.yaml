@@ -1,0 +1,13 @@
+- baseinfo:
+      apiName: 文件上传
+      path: /monitor/blockVehicle/importExcel
+      method: post
+      headers:
+        token: ${dealextractYaml(token)}
+  testCase:
+    - caseName: 导入车辆
+      files:
+        file:
+          - data/vehicle.xlsx
+      validation:
+        - contains: {'message': 'success'}
