@@ -63,15 +63,18 @@ class YamlUtil(object):
 
     def dealextractYaml(self, nodename, stepnodename=None):
         content = self.rdYaml()
-        if stepnodename is None:
-            return content[nodename]
-        else:
-            return content[nodename][stepnodename]
+        try:
+            if stepnodename is None:
+                return content[nodename]
+            else:
+                return content[nodename][stepnodename]
+        except Exception as e:
+            logs.error(f'从extract文件中获取{nodename}节点数据失败:{e}')
+            return 'Unknown'
 
     def replYaml(self, data):
         if not isinstance(data, str):
             data = json.dumps(data)
-
         for i in range(data.count('${')):
             if '${' in data and '}' in data:
                 stainx = data.index('${')
@@ -124,7 +127,6 @@ class YamlUtil(object):
         validation = case.pop('validation')
         extract = case.pop('extract', None)
         extractlist = case.pop('extractlist', None)
-
         resp = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method, headers=headers,
                                  cookies=cookies, file=None, **case)
         allure.attach(str(resp), f'接口实际响应信息:{resp}', allure.attachment_type.TEXT)
@@ -145,8 +147,7 @@ class YamlUtil(object):
                 extrinfo = {i: '未提取到数据，返回值为空或 json 提取表达式错误'}
                 if '$' in j:
                     extrajson = jsonpath.jsonpath(resp, j)
-                    if extrajson:
-                        extrinfo = {i: extrajson}
+                    extrinfo = {i: extrajson} if len(extrajson) > 1 else {i: extrajson[0]}
                     logs.info(f'json提取到的参数:{extrinfo}')
                     self.wtYaml(extrinfo)
         except Exception as e:
