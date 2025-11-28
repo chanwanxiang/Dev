@@ -29,6 +29,16 @@ def generateCode(codeleng):
     
     return code
 
+def createCaseid():
+    for i in range(1, 500):
+        yield 'C' + str(i).zfill(3)
+
+
+def nowtime():
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+caseid = createCaseid()
+
 # 基础信息
 name = faker.name()
 phone = faker.phone_number()
@@ -73,3 +83,4 @@ if __name__ == '__main__':
     #     monthAum = round(random.uniform(0, 70000), 2)
     #     sheet.append((name, phone, clientNo,'', inviCode,'', '', '', '', '',  baseAum, monthAum)
     # wb.save('info.xlsx')
+

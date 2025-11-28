@@ -3,6 +3,7 @@ import json
 import yaml
 import allure
 import jsonpath
+import util.tools as tools
 from common.logUtil import logs
 from conf.confUtil import ConfigUtil
 from conf.setting import FILE_PATH
@@ -31,6 +32,8 @@ class YamlUtil(object):
             cases = []
             with open(path, 'r') as f:
                 content = yaml.safe_load(f)
+                content = json.loads(self.replYaml(content))
+                # 处理用例
                 if len(content) <= 1:
                     content = content[0]
                     baseinfo = content['baseinfo']
@@ -49,6 +52,7 @@ class YamlUtil(object):
             file = open(FILE_PATH['extract'], 'a', encoding='utf-8')
             if isinstance(value, dict):
                 writedata = yaml.dump(value, allow_unicode=True, sort_keys=False)
+                logs.info(f'写入extract 文件数据:{writedata}')
                 file.write(writedata)
             else:
                 print('暂仅支持写入字典类型数据')
@@ -57,9 +61,12 @@ class YamlUtil(object):
         finally:
             file.close()
 
-    def dealextractYaml(self, nodename):
+    def dealextractYaml(self, nodename, stepnodename = None):
         content = self.rdYaml()
-        return content[nodename]
+        if stepnodename is None:
+            return content[nodename]
+        else:
+            return content[nodename][stepnodename]
 
     def replYaml(self, data):
         if not isinstance(data, str):
@@ -70,9 +77,16 @@ class YamlUtil(object):
                 stainx = data.index('$')
                 endinx = data.index('}', stainx)
                 orig = data[stainx:endinx + 1]
-                target = orig.strip('${}')
-                values = self.dealextractYaml(target)
-                data = data.replace(orig, values)
+                valu = orig.strip('${}')
+                funcname = valu[:valu.index('(')]
+                funcpara = valu[valu.index('(') + 1:valu.index(')')]
+                # 获取替换函数的值
+                targetfunc = getattr(tools, funcname, 'Unknown')
+                if targetfunc != 'Unknown':
+                    target = targetfunc(*funcpara.split(',') if funcpara else '')
+                    data = data.replace(orig, target)
+                else:
+                    data = data.replace(orig, targetfunc)
 
         return data
 
@@ -109,7 +123,7 @@ class YamlUtil(object):
         allure.attach(caseName, f'测试用例名称:{caseName}')
         validation = case.pop('validation')
         extract = case.pop('extract', None)
-        extracts = case.pop('extracts', None)
+        extractlist = case.pop('extractlist', None)
 
         resp = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method, headers=headers,
                                     cookies=cookies, file=None, **case)
@@ -118,19 +132,20 @@ class YamlUtil(object):
 
         if extract:
             self.extractinfo(extract, resp)
-        if extracts:
-            pass
+        if extractlist:
+            self.extractinfo(extractlist, resp)
 
-        # 断言
-        self.assu.assertMain(validation, resp, resp['msg_code'])
+        # 断言 resp['msg_code'] = 200
+        self.assu.assertMain(validation, resp, 200)
 
 
     def extractinfo(self, extract, resp):
+        # json 提取参数
         try:
             for i, j in extract.items():
                 extrinfo = {i: '未提取到数据，返回值为空或 json 提取表达式错误'}
                 if '$' in j:
-                    extrajson = jsonpath.jsonpath(resp, j)[0]
+                    extrajson = jsonpath.jsonpath(resp, j)
                     if extrajson:
                         extrinfo = {i: extrajson}
                     logs.info(f'json提取到的参数:{extrinfo}')
@@ -142,8 +157,15 @@ class YamlUtil(object):
         with open(FILE_PATH['extract'], 'w') as f:
             f.truncate()
 
+    def dealextractdata(self, data):
+        if isinstance(data, str):
+            data = json.loads(data)
+        funcname = self.replYaml(data)
+
 
 if __name__ == '__main__':
     yu = YamlUtil()
-    case = yu.rdYaml(FILE_PATH['testcase'])
+    # case = yu.rdYaml(FILE_PATH['extract'])
+    # token = yu.dealextractYaml('goodid')
+    case = yu.rdYaml('/Users/ivi/Dev/apiTest/testcase/transactionflow/creatOrder.yaml')
     print(case)

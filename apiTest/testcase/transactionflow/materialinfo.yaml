@@ -10,5 +10,5 @@
     - caseName: 获取物料信息
       validation:
         - contains: { 'message': '操作成功' }
-      extract_list:
+      extractlist:
         materialId: $.material[*]

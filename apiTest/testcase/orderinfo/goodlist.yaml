@@ -9,5 +9,8 @@
       params:
         msgType: getHandsetListOfCust
         page: 1
+        pageSize: 10
       validation:
         - contains: {'error_code': '0000'}
+      extractlist:
+        goodid: $.goodsList[*].goodsId

@@ -5,7 +5,7 @@
       headers:
         ContentType: application/x-www-formurlencoded;charset=UTF-8
       cookies:
-        ${get_extract_data(Cookie)}
+        ${nowtime()}
   testCase:
     - caseName: 用户下单
       json:
@@ -16,8 +16,8 @@
           orderType: 1
           charter: 2
           planType: 1
-          transStartTime: ${get_now_date()}
-          transEndTime: '2023-07-16 10:38:58'
+          transStartTime: ${nowtime()}
+          transEndTime: '2029-07-16 10:38:00'
           orderMark: 货主备注
           cusId: 1661242770195464193
         orderCapacityList:
