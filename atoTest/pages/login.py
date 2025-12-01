@@ -1,14 +1,18 @@
-from common.rdwtUtil import YamlUtil
 from pages.basepage import BasePage
 
+class LoginPage(BasePage):
 
-class Login(BasePage):
-    def login(self):
-        data = YamlUtil().rdYaml('login')
-        self.page.goto(data['url'])
-        self.page.get_by_placeholder('用户名').fill(data['elem']['username'])
-        self.page.get_by_placeholder('密码').fill(data['elem']['password'])
+    def __init__(self):
+        self.username = self.page.get_by_placeholder('用户名')
+        self.password = self.page.get_by_placeholder('密码')
+
+    def login(self, username, password):
+        self.page.goto('https://test104.yuuwei.com/admin/login/index.html')
+        self.username.fill(username)
+        self.password.fill(password)
         self.page.get_by_role('button', name='登录').click()
+        # expect(self.page.get_by_role('link', name='车贷流程')).to_be_visible()
 
 
-lgin = Login().login()
+if __name__ == '__main__':
+    lgin = LoginPage().login('haax', 'saas2020')

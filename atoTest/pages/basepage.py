@@ -7,9 +7,13 @@ from playwright.sync_api import sync_playwright, Page
 class BasePage:
 
     def __init__(self):
+        # 初始化 playwright
         self.playwright = sync_playwright().start()
+        # 初始化浏览器
         self.browser = self.playwright.chromium.launch(headless=False, channel='chrome')
-        self.context = self.browser.new_context(viewport={'width': 1920, 'height': 1080})
+        # 初始化上下文 viewport={'width': 1920, 'height': 1080}
+        self.context = self.browser.new_context(no_viewport=True)
+        # 初始化页面
         self.page = self.context.new_page()
 
     # cookie登录

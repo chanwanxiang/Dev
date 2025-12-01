@@ -4,6 +4,10 @@ from util.tools import absp
 from playwright.sync_api import Page
 from pages.basepage import BasePage
 
+# 定义 containsChinese 函数，解决未定义名称问题
+def containsChinese(text):
+    pattern = re.compile(r'[\u4e00-\u9fa5]')
+    return bool(pattern.search(text))
 
 class SubmitInfo(BasePage):
 
@@ -46,22 +50,35 @@ class SubmitInfo(BasePage):
         for i, j in item['fill'].items():
             info = i.split('-')
             if len(info) == 1:
-                iframe.locator(
-                    f"//label[text()='{i}']/following::input[position()=1]").fill(j)
+                # 拆分长字符串，解决行过长问题
+                xpath = (
+                    f"//label[text()='{i}']"
+                    "/following::input[position()=1]"
+                )
+                iframe.locator(xpath).fill(j)
             else:
-                iframe.locator(
-                    f"//label[text()='{info[0]}']/following::input[position()=1]").nth(info[1]).fill(j)
+                # 拆分长字符串，解决行过长问题
+                xpath = (
+                    f"//label[text()='{info[0]}']"
+                    "/following::input[position()=1]"
+                )
+                iframe.locator(xpath).nth(info[1]).fill(j)
 
         for x, y in item['select'].items():
-            iframe.locator(
-                f"//label[text()='{x}']/following::input[position()=1]").click()
+            # 拆分长字符串，解决行过长问题
+            xpath = (
+                f"//label[text()='{x}']"
+                "/following::input[position()=1]"
+            )
+            iframe.locator(xpath).click()
             page.wait_for_timeout(1000)
             if not y:
-                p = iframe.locator(
-                    'li:visible').all_inner_texts()
+                p = iframe.locator('li:visible').all_inner_texts()
                 q = [e for e in p if containsChinese(e)]
                 y = random.choices(q)[0]
-
-            iframe.locator('li:visible').filter(has_text=re.compile(rf'^{y}$')).click()
+            # 拆分长字符串，解决行过长问题
+            regex = re.compile(rf'^{y}$')
+            iframe.locator('li:visible').filter(has_text=regex).click()
             page.keyboard.press('Tab')
             page.wait_for_timeout(1000)
+            
