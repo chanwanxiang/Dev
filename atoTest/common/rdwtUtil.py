@@ -20,4 +20,4 @@ class YamlUtil(object):
 
 if __name__ == '__main__':
     yu = YamlUtil()
-    print(yu.rdYaml('login')['url'])
+    print(yu.rdYaml('login'))

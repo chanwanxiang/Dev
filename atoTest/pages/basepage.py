@@ -6,24 +6,27 @@ from playwright.sync_api import sync_playwright, Page
 
 class BasePage:
 
-    def __init__(self):
+    def __init__(self, page: Page):
+        self.page = page
+        self.url = ''
         # 初始化 playwright
-        self.playwright = sync_playwright().start()
+        # self.playwright = sync_playwright().start()
         # 初始化浏览器
-        self.browser = self.playwright.chromium.launch(headless=False, channel='chrome')
+        # self.browser = self.playwright.chromium.launch(headless=False, channel='chrome')
         # 初始化上下文 viewport={'width': 1920, 'height': 1080}
-        self.context = self.browser.new_context(no_viewport=True)
+        # self.context = self.browser.new_context(no_viewport=True)
         # 初始化页面
-        self.page = self.context.new_page()
+        # self.page = self.context.new_page()
 
     # cookie登录
-    def loginWithCookies(self, page: Page, username: str, password: str):
-        if os.path.exists(absp(f'auth/{username}.txt')) and int(time.time() - os.path.getctime(absp(f'auth/{username}.txt'))) < 200:
-            self.page.context.clear_cookies()
-            with open(absp(f'auth/{username}.txt')) as f:
-                cookies = f.read()
-            cookies = eval(cookies)
-            self.page.context.add_cookies(cookies)
+    def loginCookies(self, page: Page, username: str, password: str):
+        if os.path.exists(absp(f'auth/{username}.json')):
+            # self.page.context.clear_cookies()
+            # with open(absp(f'auth/{username}.json')) as f:
+            #     cookies = f.read()
+            # cookies = eval(cookies)
+            # self.page.context.add_cookies(cookies)
+            self.page.context.storage_state(path=absp(f'auth/{username}.json'))
             self.page.goto('/admin/index/index.html')
         else:
             self.page.context.clear_cookies()
@@ -32,11 +35,13 @@ class BasePage:
             self.page.get_by_placeholder("密码").fill(password)
             self.page.get_by_role("button", name="登录").click()
             cookies = self.page.context.cookies()
-            with open(absp(f'auth/{username}.txt'), 'w') as f:
+            with open(absp(f'auth/{username}.json'), 'w') as f:
                 f.write(str(cookies))
+
+
     # 跳转 url 地址
-    def navigate(self, url):
-        self.page.goto(url)
+    def navigate(self):
+        self.page.goto(self.url)
         time.sleep(1)
 
     def close(self):
