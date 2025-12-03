@@ -12,7 +12,7 @@ def testlogin(page):
         expect(page.get_by_text('车贷管理系统')).to_be_visible(timeout=5000)
     with allure.step('4. 保存storage_state复用'):
         page.context.storage_state(path=FILE_PATH['STORAGE_STATE_PATH'] + '/haax.json')
-        # 附加截图
+    with allure.step('5. 截图'):
         page.screenshot(path=absp('report/screenshot/login.png'))
         allure.attach.file(
             name='登录成功截图',

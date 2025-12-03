@@ -11,7 +11,7 @@ def testorderinfo(logginedpage: Page):
         mypage.page.wait_for_timeout(3000)
     with allure.step('3. 断言'):
         expect(mypage.page.get_by_text('车贷管理系统')).to_be_visible(timeout=5000)
-        # 附加截图
+    with allure.step('4. 截图'):
         mypage.page.screenshot(path=absp('report/screenshot/orderinfo.png'))
         allure.attach.file(
             name='搜索成功截图',
