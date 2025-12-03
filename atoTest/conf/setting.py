@@ -12,5 +12,6 @@ STREAM_LOG_LEVEL = logging.DEBUG
 # 文件路径
 FILE_PATH = {
     'CONFIG': os.path.join(DIR_PATH, 'conf', 'conf.ini'),
-    'LOG': os.path.join(DIR_PATH, 'logs')
+    'LOG': os.path.join(DIR_PATH, 'logs') ,
+    'STORAGE_STATE_PATH': os.path.join(DIR_PATH, 'auth')
 }

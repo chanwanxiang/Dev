@@ -7,3 +7,4 @@ class InstancePage(Page):
     def __init__(self, page: Page):
         self.page = page
         self.loginpage = login.LoginPage(Page)
+        self.orderinfopage = orderinfo.OrderInfoPage(Page)

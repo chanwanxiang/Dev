@@ -1,5 +1,4 @@
-from pages.basepage import BasePage
-from playwright.sync_api import Page, expect
+from pages import *
 
 
 class LoginPage(BasePage):
@@ -15,5 +14,3 @@ class LoginPage(BasePage):
         self.username.fill(username)
         self.password.fill(password)
         self.page.get_by_role('button', name='登录').click()
-        expect(self.page.get_by_text('车贷管理系统')).to_be_visible(timeout=5000)
-        self.page.screenshot(path='login.png')
