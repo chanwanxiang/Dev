@@ -15,7 +15,7 @@ def drawImage(newimg, text):
 
     fontSize = 100
     # 返回写入文字区域高度宽度
-    font = ImageFont.truetype('arial.ttf', fontSize)
+    font = ImageFont.truetype('NewYork.ttf', fontSize)
     fontArea = font.getsize(text)
 
     imgsize = newimg.size
@@ -23,5 +23,6 @@ def drawImage(newimg, text):
     y = (imgsize[1] - fontArea[1])/2
     draw.text((x,y), text, font=font, fill=(255, 0, 0))
 
+
 if '__main__' == __name__:
-    newImage(764, 494, 9)
+    newImage(764, 494, 2)
