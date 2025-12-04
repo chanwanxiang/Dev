@@ -1,6 +1,6 @@
-import logging
 import os
 import time
+import logging
 from logging.handlers import RotatingFileHandler
 
 from conf import setting
@@ -13,12 +13,12 @@ logfile = logpath + r'/test.{}.log'.format(time.strftime("%Y%m%d"))
 
 class LogUtil:
 
-    def outputlog(self):
+    def logoutput(self):
         logger = logging.getLogger(__name__)
         if not logger.handlers:
             logger.setLevel(setting.LOG_LEVEL)
             logformatter = logging.Formatter(
-                '%(asctime)s - %(levelname)s - %(name)s - %(filename)s : %(lineno)d - [%(module)s:%(funcName)s] - %(message)s')
+                '\n%(asctime)s - %(levelname)s - %(name)s - %(filename)s : %(lineno)d - [%(module)s:%(funcName)s] - %(message)s')
             fh = RotatingFileHandler(filename=logfile, mode='a', maxBytes=5242800, backupCount=7, encoding='utf-8')
             fh.setLevel(setting.LOG_LEVEL)
             fh.setFormatter(logformatter)
@@ -33,7 +33,7 @@ class LogUtil:
         return logger
 
 apilog = LogUtil()
-logs = apilog.outputlog()
+logs = apilog.logoutput()
 
 if __name__ == '__main__':
     logs = LogUtil()

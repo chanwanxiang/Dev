@@ -14,7 +14,7 @@ logfile = logpath + r'/test.{}.log'.format(time.strftime("%Y%m%d"))
 
 class LogUtil:
 
-    def outputlog(self):
+    def logoutput(self):
         logger = logging.getLogger(__name__)
         if not logger.handlers:
             logger.setLevel(setting.LOG_LEVEL)
@@ -34,4 +34,4 @@ class LogUtil:
         return logger
 
 lg = LogUtil()
-logs = lg.outputlog()
+logs = lg.logoutput()
