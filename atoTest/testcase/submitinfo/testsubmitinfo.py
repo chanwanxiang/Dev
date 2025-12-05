@@ -4,7 +4,7 @@ from testcase import *
 @allure.feature('3. 录入订单')
 @allure.story('录入订单信息')
 def testorderinfo(logginedpage: Page):
-    with allure.step('1. 初始化订单页'):
+    with allure.step('1. 初始化录入订单页'):
         mypage = instancepage.InstancePage(logginedpage)
         mypage.orderinfopage.orderinfo('rl001-241224-001')
         mypage.page.wait_for_timeout(2000)
