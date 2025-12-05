@@ -44,10 +44,11 @@ item = {
 
 upload = {
     '车辆登记证书': 'testfile/分期补录/车辆登记证书.png',
-    '车辆保险单':'testfile/分期补录/车辆保险单.png',
-    '二手车评估报告':'testfile/分期补录/二手车评估报告.png',
-    '房产证':'testfile/分期补录/房产证.png'
+    '车辆保险单': 'testfile/分期补录/车辆保险单.png',
+    '二手车评估报告': 'testfile/分期补录/二手车评估报告.png',
+    '房产证': 'testfile/分期补录/房产证.png'
 }
+
 
 class SubmitInfoPage(BasePage):
 
@@ -60,7 +61,6 @@ class SubmitInfoPage(BasePage):
         self.city = self.ifra.get_by_role('menuitem', name='北京市').locator('span')
         self.area = self.ifra.get_by_role('menuitem', name='北京市').locator('span').last
         self.uploadinfo = self.ifra.get_by_role('button', name='上传影像材料')
-
 
     def submitinfo(self):
         self.fillinfo(elem)
