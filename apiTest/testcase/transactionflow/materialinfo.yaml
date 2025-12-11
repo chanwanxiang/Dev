@@ -5,7 +5,7 @@
       headers:
         ContentType: application/json;charset=UTF-8
       cookies:
-        ${dealextractYaml('Cookie')}
+        ${dealextractYaml(cookies)}
   testCase:
     - caseName: 获取物料信息
       validation:

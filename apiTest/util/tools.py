@@ -1,9 +1,10 @@
-from datetime import datetime
-
 import openpyxl
 import random
 from faker import Faker
+from datetime import datetime
 from prestool.Tool import Tool
+from conf.setting import FILE_PATH
+
 
 prest = Tool()
 faker = Faker(locale='zh-CN')
@@ -39,9 +40,15 @@ def createCaseid():
 def nowtime():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-def dealextractYaml(nodename):
-    import common.yamlUtil
-    return YamlUtil().dealextractYaml(nodename)
+def wtinfo(value: dict):
+        file = open(FILE_PATH['extract'], 'a', encoding='utf-8')
+        if isinstance(value, dict):
+            writedata = value.dump(value, allow_unicode=True, sort_keys=False)
+            file.write(writedata)
+        else:
+            print('暂仅支持写入字典类型数据')
+        file.close()
+
 
 caseid = createCaseid()
 

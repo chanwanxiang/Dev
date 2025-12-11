@@ -52,7 +52,7 @@ class YamlUtil(object):
             file = open(FILE_PATH['extract'], 'a', encoding='utf-8')
             if isinstance(value, dict):
                 writedata = yaml.dump(value, allow_unicode=True, sort_keys=False)
-                logs.info(f'写入extract 文件数据:{writedata}')
+                logs.info(f'写入extract文件数据:{writedata}')
                 file.write(writedata)
             else:
                 print('暂仅支持写入字典类型数据')
@@ -86,8 +86,9 @@ class YamlUtil(object):
                 # 获取替换函数的值
                 targetfunc = getattr(self, funcname, 'Unknown')
                 if targetfunc != 'Unknown':
+                    # 执行替换函数
                     target = targetfunc(*funcpara.split(',') if funcpara else '')
-                    data = data.replace(orig, target)
+                    data = data.replace(orig, str(target))
                 else:
                     data = data.replace(orig, targetfunc)
 
@@ -104,41 +105,28 @@ class YamlUtil(object):
         headers = baseinfo['headers']
         allure.attach(str(headers), f'接口请求头的信息:{headers}', allure.attachment_type.TEXT)
         cookies = {}
-        # try:
-        #     cookies = self.replYaml(['baseinfo']['cookies'])
-        #     allure.attach(cookies, f':cookies{cookies}', allure.attachment_type.TEXT)
-        # except Exception as e:
-        #     pass
-
-        # for case in caseinfo['testCase']:
-        #     caseName = case.pop('caseName')
-        #     allure.attach(caseName, f'测试用例名称:{caseName}')
-        #     validation = case.pop('validation')
-        #     extract = case.pop('extract', None)
-        #     extracts = case.pop('extracts', None)
-        #     resp = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method, headers=headers,
-        #                            cookies=cookies, file=None, **case)
-        #     allure.attach(str(resp), f'接口实际响应信息:{resp}', allure.attachment_type.TEXT)
-        #     allure.attach(str(case),f'请求参数:{case}',allure.attachment_type.TEXT)
-        #     print(resp)
-
+        if baseinfo.get('cookies'):
+            # 处理cookies字符串为字典类型
+            cookies = eval(baseinfo['cookies'])
+            allure.attach(str(cookies), f'接口请求头的cookie信息:{cookies}', allure.attachment_type.TEXT)
         caseName = case.pop('caseName')
         allure.attach(caseName, f'测试用例名称:{caseName}')
         validation = case.pop('validation')
         extract = case.pop('extract', None)
         extractlist = case.pop('extractlist', None)
-        resp = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method, headers=headers,
-                                 cookies=cookies, file=None, **case)
-        allure.attach(str(resp), f'接口实际响应信息:{resp}', allure.attachment_type.TEXT)
+        resp, status_code = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method,
+                                              headers=headers,
+                                              cookies=cookies, file=None, **case)
         allure.attach(str(case), f'请求参数:{case}', allure.attachment_type.TEXT)
+        allure.attach(str(resp), f'接口实际响应信息:{resp}', allure.attachment_type.TEXT)
 
         if extract:
             self.extractinfo(extract, resp)
         if extractlist:
             self.extractinfo(extractlist, resp)
 
-        # 断言 resp['msg_code'] = 200
-        self.assu.assertMain(validation, resp, 200)
+        # 断言
+        self.assu.mainAssert(validation, resp, status_code)
 
     def extractinfo(self, extract, resp):
         # json 提取参数

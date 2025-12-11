@@ -5,11 +5,11 @@
       headers:
         ContentType: application/json;charset=UTF-8
       cookies:
-        ${get_extract_data(Cookie)}
+        ${dealextractYaml(cookies)}
   testCase:
     - caseName: 分配物流
       json:
-        orderId: ${get_extract_data(orderId)}
+        orderId: ${dealextractYaml(orderId)}
         orgId: '4140913758110176843'
       validation:
         - contains: { 'message': '操作成功' }

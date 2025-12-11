@@ -1,15 +1,13 @@
+import yaml
 import pprint
 import requests
 from requests import utils
+from util.tools import FILE_PATH
 from common.logUtil import logs
-
-
-# from common.yamlUtil import YamlUtil
 
 
 class RequestUtil:
     def __init__(self):
-        # self.yu = YamlUtil()
         self.logger = logs
 
     def request(self, url, method, headers=None, params=None, contentType=None, file=None, **kwargs):
@@ -33,23 +31,17 @@ class RequestUtil:
             print('HTTP请求报错:{0}'.format(e))
 
     def sendRequest(self, **kwargs):
-        cookies, resp = {}, {}
+        cookies = {}
         session = requests.Session()
-        try:
-            resp = session.request(**kwargs).json()
-            if resp.get('cookies') is not None:
-                setCookie = requests.utils.dict_from_cookiejar(resp.cookies)
-                cookies['Cookie'] = setCookie
-                self.yu.writeYaml(cookies)
-            logs.info(f'接口实际返回信息{resp}')
-        except requests.exceptions.ConnectionError as e:
-            logs.error(f'连接服务器的异常{e}')
-        except requests.exceptions.HTTPError as e:
-            logs.error(f'HTTP异常{e}')
-        except Exception as e:
-            logs.error(f'发起请求异常{e}')
+        resp = session.request(**kwargs)
+        setcookies = requests.utils.dict_from_cookiejar(resp.cookies)
+        if setcookies:
+            cookies['cookies'] = setcookies
+            open(FILE_PATH['extract'], 'a', encoding='utf-8').write(yaml.dump(cookies))
+            logs.info(f'写入extract文件数据:{yaml.dump(cookies)}')
+            logs.info(f'接口实际返回信息{resp.json()}')
 
-        return resp
+        return resp.json(), resp.status_code
 
     def runMain(self, apiName, caseName, url, method, headers, cookies, file, **kwargs):
         logs.info(f'接口名称{apiName}')
@@ -63,10 +55,10 @@ class RequestUtil:
 
 
 if __name__ == "__main__":
-    # url = 'http://127.0.0.1:8787/dar/user/login'
-    url = 'http://127.0.0.1:8787/coupApply/cms/goodsList'
+    url = 'http://127.0.0.1:8787/dar/user/login'
+    # url = 'http://127.0.0.1:8787/coupApply/cms/goodsList'
     r = RequestUtil()
-    # params = {'user_name': 'test01', 'passwd': 'admin123'}
-    params = {'msgType': 'getHandsetListOfCust'}
-    result = r.request(url=url, method='get', params=params)
+    params = {'user_name': 'test01', 'passwd': 'admin123'}
+    # params = {'msgType': 'getHandsetListOfCust'}
+    result = r.request(url=url, method='post', params=params)
     pprint.pprint(result)

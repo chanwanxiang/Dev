@@ -6,45 +6,41 @@ from common.dbUtil import ConnSql
 
 
 class AssertUtil:
-    '''
-    接口断言模式封装
-    1. 包含字符串
-    2. 结果相等或者不等断言
-    3. 断言接口返回值中的任意一值
-    4. 数据库断言
-    5. 通过其他接口辅助
-    '''
 
-    def containsAssert(self, asserts, resp, statusCode):
+    def containsAssert(self, asserts, resp, status_code):
         # 断言状态标识 0:失败 1:成功
         flag = 1
         for asskey, assvalue in asserts.items():
-            if asskey == 'statusCode' and assvalue != statusCode:
+            # 断言status_code
+            if asskey == 'status_code' and assvalue != status_code:
                 flag -= 1
-                allure.attach(f'预期结果:{assvalue}， 实际结果:{statusCode}', '响应code断言结果: 失败',
+                allure.attach(f'预期结果:{assvalue}， 实际结果:{status_code}', 'status_code断言失败',
                               allure.attachment_type.TEXT)
-                logs.error(f'contains断言失败，接口返回code{statusCode}不等于{assvalue}')
+                logs.error(f'contains断言失败，接口返回code{status_code}不等于{assvalue}')
             else:
                 resplist = jsonpath.jsonpath(resp, f'$..{asskey}')
                 if isinstance(resplist[0], str):
                     resplist = ''.join(resplist)
                 if assvalue in resplist:
-                    logs.info('contains文本断言成功')
+                    allure.attach(f'预期结果:{assvalue}， 实际结果:{resplist}', '响应文本断言成功',
+                                  allure.attachment_type.TEXT)
+                    logs.info('contains文本成功')
                 else:
                     flag -= 1
-                    allure.attach(f'预期结果:{assvalue}， 实际结果:{resplist}', '响应文本断言结果失败',
+                    allure.attach(f'预期结果:{assvalue}， 实际结果:{resplist}', '响应文本断言失败',
                                   allure.attachment_type.TEXT)
                     logs.error(f'预期结果:{assvalue}，实际结果:{resplist}，响应文本断言失败')
 
         return flag
 
-    def equalAssert(self, asserts, resp, statusCode):
+    def equalAssert(self, asserts, resp, status_code):
         flag = 1
         reslst = []
 
         # 处理实际结果数据结构，保持预期结果数据结构一致
         if isinstance(asserts, dict) and isinstance(resp, dict):
             for rest in resp:
+                # 处理实际结果中多余的key，预期结果仅一个键值对
                 if list(asserts.keys())[0] != rest:
                     reslst.append(rest)
             for rl in reslst:
@@ -53,9 +49,13 @@ class AssertUtil:
             # 判断预期结果字典是否与实际结果字典一致性
             equAss = operator.eq(asserts, resp)
             if equAss:
+                allure.attach(f'预期结果:{asserts}， 实际结果:{resp}', '相等断言成功',
+                              allure.attachment_type.TEXT)
                 logs.info(f'相等断言成功:接口实际结果为{resp},等于预期结果{asserts}')
             else:
                 flag -= 1
+                allure.attach(f'预期结果:{asserts}， 实际结果:{resp}', '相等断言失败',
+                              allure.attachment_type.TEXT)
                 logs.info(f'相等断言失败:接口实际结果为{resp},不等预期结果{asserts}')
         else:
             raise TypeError('equal 断言失败-类型错误，预期结果以及接口响应必须为 dict 类')
@@ -74,15 +74,15 @@ class AssertUtil:
 
         return flag
 
-    def assertMain(self, expect, resp, statusCode):
+    def mainAssert(self, expect, resp, status_code):
         flag = 1
         try:
             for ex in expect:
                 for exkey, exvalue in ex.items():
                     if exkey == 'contains':
-                        flag = self.containsAssert(exvalue, resp, statusCode)
+                        flag = self.containsAssert(exvalue, resp, status_code)
                     if exkey == 'equal':
-                        self.equalAssert(exvalue, resp, statusCode)
+                        self.equalAssert(exvalue, resp, status_code)
                     if exkey == 'db':
                         self.sqlAssert(exvalue)
 
@@ -92,21 +92,3 @@ class AssertUtil:
             logs.error('测试失败')
             logs.error(f'异常信息:{e}')
             assert flag == 1
-
-
-if __name__ == '__main__':
-    import jsonpath
-    from conf.setting import FILE_PATH
-    from common.yamlUtil import YamlUtil
-
-    yu = YamlUtil()
-    case = yu.rdYaml(FILE_PATH['testcase'])[0]
-    contains = {'contains': {'error_code': '0000'}}
-    print(case)
-    au = AssertUtil()
-    # resp = {'error_code': None, 'msg': '登录成功', 'msg_code': 200, 'orgId': '6140913758128971280',
-    #         'token': '2eA527a8EcF2Ff9E01D00DbED62F7', 'userId': '8345231644817030159'}
-    # for i in case:
-    #     for k, v in i.items():
-    #         print(k, v)
-    #         au.assertMain(v, resp, 200)

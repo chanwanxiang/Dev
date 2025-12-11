@@ -5,10 +5,10 @@
       headers:
         ContentType: application/json;charset=UTF-8
       cookies:
-        ${dealextractYaml('Cookie')}
+        ${dealextractYaml(cookies)}
   testCase:
     - caseName: 接单
       json:
-        orderId: ${get_extract_data(orderId)}
+        orderId: ${dealextractYaml(orderId)}
       validation:
         - contains: { 'message': '操作成功' }
