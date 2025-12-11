@@ -1,5 +1,5 @@
 - baseinfo:
-      apiName: 下单接口
+      apiname: 下单接口
       path: /api/order/customer/orderPlan/create
       method: post
       headers:
@@ -7,7 +7,7 @@
       cookies:
         ${nowtime()}
   testCase:
-    - caseName: 用户下单
+    - casename: 用户下单
       json:
         orderInfo:
           template: define

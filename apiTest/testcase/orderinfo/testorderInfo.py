@@ -16,6 +16,10 @@ class TestOrderinfo(object):
     def test_goodlist(self, baseinfo, case):
         yu.dealYaml(baseinfo, case)
 
+    @pytest.mark.parametrize('baseinfo, case', yu.rdYaml('/Users/ivi/Dev/apiTest/testcase/orderinfo/upfile.yaml'))
+    @allure.story(next(caseid)+'导入文件')
+    def test_upfile(self, baseinfo, case):
+        yu.dealYaml(baseinfo, case)
 
 if __name__ == '__main__':
     pytest.main(['--reruns=2', '-m "maoyan"'])

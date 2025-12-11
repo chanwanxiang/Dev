@@ -43,12 +43,12 @@ class RequestUtil:
 
         return resp.json(), resp.status_code
 
-    def runMain(self, apiName, caseName, url, method, headers, cookies, file, **kwargs):
-        logs.info(f'接口名称{apiName}')
+    def runMain(self, apiname, casename, url, method, headers, cookies, files, **kwargs):
+        logs.info(f'接口名称{apiname}')
         logs.info(f'接口地址{url}')
         logs.info(f'请求方式{method}')
         logs.info(f'请求头部信息{headers}')
-        resp = self.sendRequest(url=url, method=method, headers=headers, cookies=cookies, files=file, verify=False,
+        resp = self.sendRequest(url=url, method=method, headers=headers, cookies=cookies, files=files, verify=False,
                                 **kwargs)
 
         return resp

@@ -1,11 +1,11 @@
 - baseinfo:
-      apiName: 商品列表
+      apiname: 商品列表
       path: /coupApply/cms/goodsList
       method: get
       headers:
         ContentType: application/x-www-formurlencoded;charset=UTF-8
   testCase:
-    - caseName: 获取商品列表
+    - casename: 获取商品列表
       params:
         msgType: getHandsetListOfCust
         page: 1

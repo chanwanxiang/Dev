@@ -1,5 +1,5 @@
 - baseinfo:
-      apiName: 物料信息接口
+      apiname: 物料信息接口
       path: /api/order/customer/orderPlan/getMaterial
       method: post
       headers:
@@ -7,7 +7,7 @@
       cookies:
         ${dealextractYaml(cookies)}
   testCase:
-    - caseName: 获取物料信息
+    - casename: 获取物料信息
       validation:
         - contains: { 'message': '操作成功' }
       extractlist:

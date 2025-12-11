@@ -1,5 +1,5 @@
 - baseinfo:
-      apiName: 分配物流接口
+      apiname: 分配物流接口
       path: /api/order/pc/order/assign
       method: post
       headers:
@@ -7,7 +7,7 @@
       cookies:
         ${dealextractYaml(cookies)}
   testCase:
-    - caseName: 分配物流
+    - casename: 分配物流
       json:
         orderId: ${dealextractYaml(orderId)}
         orgId: '4140913758110176843'

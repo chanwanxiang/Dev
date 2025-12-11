@@ -1,5 +1,5 @@
 - baseinfo:
-      apiName: 接单接口
+      apiname: 接单接口
       path: /api/order/pc/order/master/receive
       method: post
       headers:
@@ -7,7 +7,7 @@
       cookies:
         ${dealextractYaml(cookies)}
   testCase:
-    - caseName: 接单
+    - casename: 接单
       json:
         orderId: ${dealextractYaml(orderId)}
       validation:

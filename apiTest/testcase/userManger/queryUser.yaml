@@ -1,11 +1,11 @@
 - baseinfo:
-      apiName: 查询用户
+      apiname: 查询用户
       path: /dar/user/queryUser
       method: post
       headers:
         ContentType: application/x-www-formurlencoded;charset=UTF-8
   testCase:
-    - caseName: 正确查询用户
+    - casename: 正确查询用户
       data:
         user_id: 12345678
       validation:
@@ -13,7 +13,7 @@
         - contains: {'msg': '查询成功'}
       extract:
         token: $.token
-    - caseName: 异常查询用户
+    - casename: 异常查询用户
       data:
         user_id: 1234567890
       validation:

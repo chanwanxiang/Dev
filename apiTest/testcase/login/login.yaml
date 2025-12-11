@@ -1,11 +1,11 @@
 - baseinfo:
-      apiName: 登录
+      apiname: 登录
       path: /dar/user/login
       method: post
       headers:
         ContentType: application/x-www-formurlencoded;charset=UTF-8
   testCase:
-    - caseName: 用户名和密码正确登录
+    - casename: 用户名和密码正确登录
       data:
         user_name: test01
         passwd: admin123
@@ -14,7 +14,7 @@
         - equal: {'msg': '登录成功'}
       extract:
         token: $.token
-    - caseName: 用户名或密码错误登录
+    - casename: 用户名或密码错误登录
       data:
         user_name: test01
         passwd: admin123123

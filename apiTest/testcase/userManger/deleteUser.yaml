@@ -1,11 +1,11 @@
 - baseinfo:
-      apiName: 删除用户
+      apiname: 删除用户
       path: /dar/user/deleteUser
       method: post
       headers:
         ContentType: application/x-www-formurlencoded;charset=UTF-8
   testCase:
-    - caseName: 正确删除用户
+    - casename: 正确删除用户
       data:
         user_id: 12345678
       validation:
@@ -13,7 +13,7 @@
         - contains: {'msg': '删除成功'}
       extract:
         token: $.token
-    - caseName: 异常删除用户
+    - casename: 异常删除用户
       data:
         user_id: 1234567890
       validation:

@@ -98,8 +98,8 @@ class YamlUtil(object):
         baseurl = self.conf.dealconfig('ENV', 'host')
         url = baseurl + baseinfo['path']
         allure.attach(url, f'接口地址:{url}')
-        apiName = baseinfo['apiName']
-        allure.attach(apiName, f'接口名称:{apiName}')
+        apiname = baseinfo['apiname']
+        allure.attach(apiname, f'接口名称:{apiname}')
         method = baseinfo['method']
         allure.attach(method, f'请求方式:{method}')
         headers = baseinfo['headers']
@@ -109,14 +109,20 @@ class YamlUtil(object):
             # 处理cookies字符串为字典类型
             cookies = eval(baseinfo['cookies'])
             allure.attach(str(cookies), f'接口请求头的cookie信息:{cookies}', allure.attachment_type.TEXT)
-        caseName = case.pop('caseName')
-        allure.attach(caseName, f'测试用例名称:{caseName}')
+        casename = case.pop('casename')
+        allure.attach(casename, f'测试用例名称:{casename}')
         validation = case.pop('validation')
         extract = case.pop('extract', None)
         extractlist = case.pop('extractlist', None)
-        resp, status_code = self.rqus.runMain(apiName=apiName, caseName=caseName, url=url, method=method,
+        # 处理文件上传接口
+        file, files = case.pop('files', None), None
+        if file is not None:
+            for fk, fv in file.items():
+                allure.attach(json.dumps(file), '导入文件')
+                files = {fk: open(fv, mode='rb')}
+        resp, status_code = self.rqus.runMain(apiname=apiname, casename=casename, url=url, method=method,
                                               headers=headers,
-                                              cookies=cookies, file=None, **case)
+                                              cookies=cookies, files=files, **case)
         allure.attach(str(case), f'请求参数:{case}', allure.attachment_type.TEXT)
         allure.attach(str(resp), f'接口实际响应信息:{resp}', allure.attachment_type.TEXT)
 
