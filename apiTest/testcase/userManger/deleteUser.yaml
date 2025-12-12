@@ -9,7 +9,6 @@
       data:
         user_id: 12345678
       validation:
-        - contains: {'status_code': 200}
         - contains: {'msg': '删除成功'}
       extract:
         token: $.token

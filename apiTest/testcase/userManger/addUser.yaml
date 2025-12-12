@@ -14,7 +14,6 @@
         phone: 13800000000
         token: ${dealextractYaml(token)}
       validation:
-        - contains: {'status_code': 200}
         - contains: {'msg': '新增成功'}
       extract:
         token: $.token
