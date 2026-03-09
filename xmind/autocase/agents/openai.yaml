@@ -1,0 +1,4 @@
+interface:
+  display_name: "AutoCase"
+  short_description: "按模块生成详细功能测试用例并导出可打开XMind导图文件"
+  default_prompt: "Use $autocase to derive modules from requirements/prototype notes, generate detailed functional test cases, and export an XMind file."
