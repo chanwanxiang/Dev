@@ -10,26 +10,6 @@ class RequestUtil:
     def __init__(self):
         self.logger = logs
 
-    def request(self, url, method, headers=None, params=None, contentType=None, file=None, **kwargs):
-        try:
-            if method == 'get':
-                result = requests.get(
-                    url=url, params=params, headers=headers).json()
-                return result
-            elif method == 'post':
-                if contentType != 'DATA':
-                    result = requests.post(
-                        url=url, data=params, headers=headers, verify=False).json()
-                else:
-                    result = requests.post(
-                        url=url, json=params, headers=headers, verify=False).json()
-                return result
-            else:
-                print('不支持的请求方式')
-
-        except Exception as e:
-            print('HTTP请求报错:{0}'.format(e))
-
     def sendRequest(self, **kwargs):
         cookies = {}
         session = requests.Session()
@@ -48,6 +28,7 @@ class RequestUtil:
         logs.info(f'接口地址{url}')
         logs.info(f'请求方式{method}')
         logs.info(f'请求头部信息{headers}')
+        logs.info(f'请求参数{kwargs}')
         resp = self.sendRequest(url=url, method=method, headers=headers, cookies=cookies, files=files, verify=False,
                                 **kwargs)
 

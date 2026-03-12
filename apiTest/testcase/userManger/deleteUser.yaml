@@ -7,11 +7,9 @@
   testCase:
     - casename: 正确删除用户
       data:
-        user_id: 12345678
+        user_id: 213457889904300192
       validation:
         - contains: {'msg': '删除成功'}
-      extract:
-        token: $.token
     - casename: 异常删除用户
       data:
         user_id: 1234567890

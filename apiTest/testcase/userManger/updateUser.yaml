@@ -15,8 +15,6 @@
       validation:
         - contains: {'status_code': 200}
         - contains: {'msg': '更新成功'}
-      extract:
-        token: $.token
     - casename: 异常更新用户
       data:
         username: testadduser

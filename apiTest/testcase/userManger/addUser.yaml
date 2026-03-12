@@ -7,7 +7,7 @@
   testCase:
     - casename: 正确新增用户
       data:
-        username: adduser
+        username: addtestuser
         password: test123456
         role_id: 12345678
         dates: ${nowtime()}
@@ -15,8 +15,6 @@
         token: ${dealextractYaml(token)}
       validation:
         - contains: {'msg': '新增成功'}
-      extract:
-        token: $.token
     - casename: 异常新增用户
       data:
         username: testadduser
@@ -24,6 +22,6 @@
         role_id: 12345678
         dates: ${nowtime()}
         phone: 13800000000
-        token: ${dealextractYaml(token)}
+        token: 123456
       validation:
         - contains: {'msg': '新增失败'}

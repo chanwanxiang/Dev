@@ -20,4 +20,3 @@
         passwd: admin123123
       validation:
         - contains: {'msg': '登录失败'}
-        - db: SELECT * FROM TABLE;

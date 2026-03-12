@@ -5,7 +5,7 @@
       headers:
         ContentType: application/x-www-formurlencoded;charset=UTF-8
       cookies:
-        ${nowtime()}
+        ${dealextractYaml(cookies)}
   testCase:
     - casename: 用户下单
       json:

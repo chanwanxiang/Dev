@@ -1,5 +1,6 @@
 import os
 import json
+from readline import insert_text
 import yaml
 import allure
 import jsonpath
@@ -32,7 +33,8 @@ class YamlUtil(object):
             cases = []
             with open(path, 'r') as f:
                 content = yaml.safe_load(f)
-                content = json.loads(self.replYaml(content))
+                # @pytest.parametrize()收集用例时会调用rdYaml方法,保障使用最新extract.yaml数据先不调用replYaml()方法
+                # content = json.loads(self.replYaml(content))
                 # 处理用例
                 if len(content) <= 1:
                     content = content[0]
@@ -67,7 +69,11 @@ class YamlUtil(object):
             if stepnodename is None:
                 return content[nodename]
             else:
-                return content[nodename][stepnodename]
+                if isinstance(stepnodename, str) and stepnodename.isdigit():
+                    return content[nodename][int(stepnodename)]
+                else:
+                    logs.error(f'从extract文件中获取{nodename}节点{stepnodename}数据失败')
+                    return 'Unknown'
         except Exception as e:
             logs.error(f'从extract文件中获取{nodename}节点数据失败:{e}')
             return 'Unknown'
@@ -95,6 +101,8 @@ class YamlUtil(object):
         return data
 
     def dealYaml(self, baseinfo, case):
+        baseinfo = json.loads(self.replYaml(baseinfo))
+        case = json.loads(self.replYaml(case))
         baseurl = self.conf.dealconfig('ENV', 'host')
         url = baseurl + baseinfo['path']
         allure.attach(url, f'接口地址:{url}')
